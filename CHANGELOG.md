@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.3](https://github.com/Herm71/jc-core-functionality/compare/v0.1.2...v0.1.3) (2024-01-15)
+
+
+### Features
+
+* :fire: remove custom post types php file, edit plugin.php accordingly ([6c6b9f6](https://github.com/Herm71/jc-core-functionality/commit/6c6b9f683c8551b0bd5738c0213059a871f8cda0))
+
 ### [0.1.2](https://github.com/Herm71/jc-core-functionality/compare/v0.1.1...v0.1.2) (2024-01-15)
 
 
