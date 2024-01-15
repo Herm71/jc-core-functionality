@@ -22,11 +22,6 @@ define('JC_DIR', dirname(__FILE__));
 
 // Include Customization files.
 
-// Post Types.
-// if (file_exists(JC_DIR . '/lib/functions/post-types.php') ) {
-//     include_once JC_DIR . '/lib/functions/post-types.php';
-// }
-
 // Google Tag Manager.
 if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
     include_once JC_DIR . '/lib/functions/gtm.php';
