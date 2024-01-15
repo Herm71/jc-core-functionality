@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/Herm71/jc-core-functionality.git
  * GitHub Plugin URI: https://github.com/Herm71/jc-core-functionality
  * Description: Contains custom functionality. Theme independent.
- * Version: 1.2.2
+ * Version: 1.0.0
  * Author: Jason Chafin
  * Author URI: https://github.com/Herm71
  * License: GPL2
@@ -18,37 +18,37 @@
  */
 
 // Plugin Directory
-define('BB_DIR', dirname(__FILE__));
+define('JC_DIR', dirname(__FILE__));
 
 // Include Customization files.
 
 // Post Types.
-// if (file_exists(BB_DIR . '/lib/functions/post-types.php') ) {
-//     include_once BB_DIR . '/lib/functions/post-types.php';
+// if (file_exists(JC_DIR . '/lib/functions/post-types.php') ) {
+//     include_once JC_DIR . '/lib/functions/post-types.php';
 // }
 
 // Google Tag Manager.
-// if (file_exists(BB_DIR . '/lib/functions/gtm.php') ) {
-//     include_once BB_DIR . '/lib/functions/gtm.php';
+// if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
+//     include_once JC_DIR . '/lib/functions/gtm.php';
 // }
 
 // Shortcodes.
-// if ( file_exists( BB_DIR . '/lib/functions/shortcodes.php' ) ) {
-//     include_once BB_DIR . '/lib/functions/shortcodes.php';
+// if ( file_exists( JC_DIR . '/lib/functions/shortcodes.php' ) ) {
+//     include_once JC_DIR . '/lib/functions/shortcodes.php';
 // }
 
 // Disable XMLRP.
-if (file_exists(BB_DIR . '/lib/functions/disable-xmlrpc.php') ) {
-    include_once BB_DIR . '/lib/functions/disable-xmlrpc.php';
+if (file_exists(JC_DIR . '/lib/functions/disable-xmlrpc.php') ) {
+    include_once JC_DIR . '/lib/functions/disable-xmlrpc.php';
 }
 
 // Security Headers.
-// require_once BB_DIR . '/lib/functions/security-headers.php';
-// if (file_exists(BB_DIR . '/lib/functions/security-headers.php') ) {
-//     include_once BB_DIR . '/lib/functions/security-headers.php';
+// require_once JC_DIR . '/lib/functions/security-headers.php';
+// if (file_exists(JC_DIR . '/lib/functions/security-headers.php') ) {
+//     include_once JC_DIR . '/lib/functions/security-headers.php';
 // }
 
 // General.
-if (file_exists(BB_DIR . '/lib/functions/general.php') ) {
-    include_once BB_DIR . '/lib/functions/general.php';
+if (file_exists(JC_DIR . '/lib/functions/general.php') ) {
+    include_once JC_DIR . '/lib/functions/general.php';
 }
