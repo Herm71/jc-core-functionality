@@ -28,9 +28,9 @@ define('JC_DIR', dirname(__FILE__));
 // }
 
 // Google Tag Manager.
-// if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
-//     include_once JC_DIR . '/lib/functions/gtm.php';
-// }
+if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
+    include_once JC_DIR . '/lib/functions/gtm.php';
+}
 
 // Shortcodes.
 // if ( file_exists( JC_DIR . '/lib/functions/shortcodes.php' ) ) {
@@ -43,10 +43,10 @@ if (file_exists(JC_DIR . '/lib/functions/disable-xmlrpc.php') ) {
 }
 
 // Security Headers.
-// require_once JC_DIR . '/lib/functions/security-headers.php';
-// if (file_exists(JC_DIR . '/lib/functions/security-headers.php') ) {
-//     include_once JC_DIR . '/lib/functions/security-headers.php';
-// }
+require_once JC_DIR . '/lib/functions/security-headers.php';
+if (file_exists(JC_DIR . '/lib/functions/security-headers.php') ) {
+    include_once JC_DIR . '/lib/functions/security-headers.php';
+}
 
 // General.
 if (file_exists(JC_DIR . '/lib/functions/general.php') ) {
