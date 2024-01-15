@@ -1,0 +1,49 @@
+{
+	"name": "jc-core-functionality",
+	"version": "1.2.2",
+	"description": "Core functionality plugin for RCID WordPress",
+	"main": "build/index.js",
+	"directories": {
+		"lib": "lib"
+	},
+	"scripts": {
+		"build": "wp-scripts build",
+		"format": "wp-scripts format",
+		"format:src": "wp-scripts format ./src",
+		"lint:style": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"lint:pkg-json": "wp-scripts lint-pkg-json",
+		"packages-update": "wp-scripts packages-update",
+		"postpackages-update": "npm run build",
+		"release": "standard-version",
+		"start": "wp-scripts start",
+		"start:hot": "wp-scripts start --hot",
+		"test": "lint-staged",
+		"zip": "wp-scripts build && wp-scripts plugin-zip"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Herm71/jc-core-functionality.git"
+	},
+	"keywords": [
+		"wordpress",
+		"plugin"
+	],
+	"author": "Jason <jchafin@ucsc.edu>",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Herm71/jc-core-functionality/issues"
+	},
+	"homepage": "https://github.com/Herm71/jc-core-functionality#readme",
+	"devDependencies": {
+		"@wordpress/prettier-config": "^3.5.0",
+		"@wordpress/scripts": "^26.19.0",
+		"lint-staged": "^15.2.0",
+		"prettier": "^3.1.1",
+		"standard-version": "^9.5.0"
+	},
+	"files": [
+		"lib",
+		"*.php"
+	]
+}
