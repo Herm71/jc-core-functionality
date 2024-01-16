@@ -4,7 +4,7 @@
  * Plugin URI: https://github.com/Herm71/jc-core-functionality.git
  * GitHub Plugin URI: https://github.com/Herm71/jc-core-functionality
  * Description: Contains custom functionality. Theme independent.
- * Version: 0.1.3
+ * Version: 0.1.4
  * Author: Jason Chafin
  * Author URI: https://github.com/Herm71
  * License: GPL2
