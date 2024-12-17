@@ -48,9 +48,9 @@ if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
 }
 
 // Shortcodes.
-// if ( file_exists( JC_DIR . '/lib/functions/shortcodes.php' ) ) {
-//     include_once JC_DIR . '/lib/functions/shortcodes.php';
-// }
+if ( file_exists( JC_DIR . '/lib/functions/shortcodes.php' ) ) {
+    include_once JC_DIR . '/lib/functions/shortcodes.php';
+}
 
 // Disable XMLRP.
 if (file_exists(JC_DIR . '/lib/functions/disable-xmlrpc.php') ) {
