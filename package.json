@@ -1,7 +1,7 @@
 {
 	"name": "jc-core-functionality",
 	"version": "1.0.0",
-	"description": "Core functionality plugin for RCID WordPress",
+	"description": "Core functionality plugin for JC WordPress",
 	"main": "build/index.js",
 	"directories": {
 		"lib": "lib"
@@ -29,7 +29,7 @@
 		"wordpress",
 		"plugin"
 	],
-	"author": "Jason <jchafin@ucsc.edu>",
+	"author": "Jason <jasonchafin@gmail.edu>",
 	"license": "ISC",
 	"bugs": {
 		"url": "https://github.com/Herm71/jc-core-functionality/issues"
@@ -43,7 +43,29 @@
 		"standard-version": "^9.5.0"
 	},
 	"files": [
+		"!node_modules",
+		"!vendor",
+		"!package.json",
 		"lib",
-		"*.php"
-	]
+		"plugin.php",
+		"README.md",
+		"CHANGELOG.md",
+		"LICENSE"
+	],
+	"standard-version": {
+		"bumpFiles": [
+			{
+				"filename": "package-lock.json",
+				"type": "json"
+			},
+			{
+				"filename": "package.json",
+				"type": "json"
+			},
+			{
+				"filename": "plugin.php",
+				"updater": "standard-version-updater.js"
+			}
+		]
+	}
 }
