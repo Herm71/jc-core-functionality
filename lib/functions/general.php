@@ -90,15 +90,48 @@ function jc_acf_register_meta() {
 // Register Custom Block Binding Source
 
 // Copyright
-add_action( 'init', 'projectslug_register_block_bindings' );
+add_action( 'init', 'jc_register_block_bindings' );
 
-function projectslug_register_block_bindings() {
-	register_block_bindings_source( 'projectslug/copyright', array(
-		'label'              => __( 'Copyright', 'projectslug' ),
-		'get_value_callback' => 'projectslug_copyright_binding'
+function jc_register_block_bindings() {
+	register_block_bindings_source( 'jc/copyright', array(
+		'label'              => __( 'Copyright', 'jc' ),
+		'get_value_callback' => 'jc_copyright_binding'
+	) );
+	register_block_bindings_source( 'jc/user-data', array(
+		'label'              => __( 'User Data', 'jc' ),
+		'get_value_callback' => 'jc_user_data_bindings'
 	) );
 }
 
-function projectslug_copyright_binding() {
+// Copyright callback
+function jc_copyright_binding() {
 	return '&copy; ' . date( 'Y' );
+}
+
+// User Data callback
+function jc_user_data_bindings( $source_args ) {
+	// If no key or user ID argument is set, bail early.
+	if ( ! isset( $source_args['key'] ) || ! isset( $source_args['userId'] ) ) {
+		return null;
+	}
+
+	// Get the user ID.
+	$user_id = absint( $source_args['userId'] );
+
+	// Return null if there's no user ID at all.
+	if ( 0 >= $user_id ) {
+		return null;
+	}
+
+	// Return the data based on the key argument.
+	switch ( $source_args['key'] ) {
+		case 'name':
+			return esc_html( get_the_author_meta( 'display_name', $user_id ) );
+		case 'description':
+			return get_the_author_meta( 'description', $user_id );
+		case 'avatar':
+			return esc_url( get_avatar_url( $user_id ) );
+		default:
+			return null;
+	}
 }

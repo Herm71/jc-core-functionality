@@ -1,6 +1,6 @@
 <?php
 /**
- * General
+ * Shortcodes
  *
  * This file contains Shortcode functions
  *
@@ -33,3 +33,4 @@ function jc_quotes_loop() {
 	return $finalloop;
 	wp_reset_postdata();
 }
+

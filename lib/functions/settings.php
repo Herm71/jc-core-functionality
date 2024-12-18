@@ -24,9 +24,29 @@ add_action( 'admin_menu', 'jc_add_settings_page' );
  */
 if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
 	function jc_render_plugin_settings_page() {
-		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/jc-custom-functionality/plugin.php');
+		$plugin_data = get_plugin_data( JC_DIR . '/plugin.php');
 		?><h1>Jason Chafin Custom Functionality Plugin</h1>
-		<h2>Version: <?php echo $plugin_data['Version']; ?></h2><?php
+		<h2>Version: <?php echo $plugin_data['Version']; ?></h2>
+		<p><?php echo $plugin_data['Description']; ?> <a href="https://github.com/Herm71/jc-core-functionality/releases">(release notes)</a></p>
+		<hr>
+		<h3>Features added by this plugin:</h3>
+		<ul>
+			<li><strong>Google Tag Manager</strong> and <strong>Google Analytics 4</strong></li>
+			<li><strong>Security Headers</strong> Content Security Policy, etc.</li>
+			<li><strong>Shortcodes:</strong>
+				<ul>
+					<li><code>[quotes]</code>: Displays a random quote from the Quotes CPT</li>
+				</ul>
+			</li>
+			<li><strong>Block Bindings:</strong>
+				<ul>
+					<li>Copyright <blockquote><pre><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"jc/copyright"}}}} -->
+<p>Copyright Block</p>
+<!-- /wp:paragraph --></pre></blockquote>
+				</ul>
+			</li>
+		</ul>
+		</div><?php
 	}
 }
 

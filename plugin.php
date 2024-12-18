@@ -8,6 +8,7 @@
  * Author: Jason Chafin
  * Author URI: https://github.com/Herm71
  * License: GPL2
+ * Requires Plugins: advanced-custom-fields-pro
  */
 
 // Plugin Directory
