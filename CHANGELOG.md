@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/Herm71/jc-core-functionality/compare/v1.0.0...v1.0.1) (2024-12-18)
+
+
+### Features
+
+* 🎉 Lots of additions and Refinements ([#1](https://github.com/Herm71/jc-core-functionality/issues/1)) ([8273258](https://github.com/Herm71/jc-core-functionality/commit/82732581d2da4dc5636cfc83dd1582dc494cf3ec))
+
 ## [1.0.0](https://github.com/Herm71/jc-core-functionality/compare/v0.1.4...v1.0.0) (2024-01-16)
 
 
