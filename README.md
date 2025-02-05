@@ -21,5 +21,3 @@ This plugin can be expanded as use-cases arise. It currently features the follow
 ## Author
 
 [@Herm71](https://github.com/Herm71/)
-
-Some words.
