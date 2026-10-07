@@ -20,6 +20,7 @@ Neither `vendor/` nor `node_modules/` is committed. Run `composer install` and `
   - `npm test` still runs `lint-staged`, which has no config.
 - Release zip: `npm run zip`. It packages only the `files` list in `package.json` into a `jc-core-functionality/` root folder. Run `composer install --no-dev` first, or dev dependencies end up in `vendor/` in the zip.
 - Release: `npm run release` (commit-and-tag-version). It bumps `package.json`, `package-lock.json` and the `Version:` header in `plugin.php` (via `wp-plugin-version-updater.js`), updates `CHANGELOG.md` from Conventional Commits, and tags `vX.Y.Z`. Pushing the tag triggers `.github/workflows/release.yml`, which runs `composer install --no-dev` and `plugin-zip`, then attaches `jc-core-functionality.zip` to a GitHub release.
+- Release candidates: `npm run release -- --prerelease rc` tags `vX.Y.Z-rc.N`. The workflow publishes `-rc` tags as GitHub prereleases. PUC reads `/releases/latest`, which skips prereleases, so installed sites never see RCs. To test an RC on staging, install its zip by hand. If an RC is ever published without the prerelease flag, every site with the updater is offered it.
 
 ## Architecture
 

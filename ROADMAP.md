@@ -4,11 +4,15 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 | Milestone | Sections | Issues |
 | --- | --- | --- |
-| [v1.0.2 — Packaging & bug fixes](https://github.com/Herm71/jc-core-functionality/milestone/1) | 0–2 | #17 (first), #2–#8 |
+| [v1.0.2 — Packaging & bug fixes](https://github.com/Herm71/jc-core-functionality/milestone/1) | 0–2 | #17 (first), #2–#8, #21 |
 | [v1.1.0 — Security & cleanup](https://github.com/Herm71/jc-core-functionality/milestone/2) | 3–4 | #9–#13 |
 | [v1.2.0 — Tooling & enhancements](https://github.com/Herm71/jc-core-functionality/milestone/3) | 5–6 | #14–#16 |
 
 When you close an issue, tick its box here too.
+
+### Done on the `21-rc-prerelease` branch
+
+- RC tags now publish as GitHub prereleases, so the updater never offers them to installed sites (#21).
 
 ### Done on the `v1.0.2-remaining-fixes` branch
 
@@ -37,6 +41,7 @@ When you close an issue, tick its box here too.
 - [x] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2), done as part of #17). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
 - [x] **Add the missing `LICENSE` file** ([#3](https://github.com/Herm71/jc-core-functionality/issues/3)). The plugin is now GPL-2.0-or-later everywhere: plugin header (plus `License URI`), `package.json`, `package-lock.json` and `composer.json`. The full GPL-2.0 text is in `LICENSE`.
 - [x] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4), done as part of #17). It pinned Node 14 and old action versions, and ran `npm run build` with no `src/`. It now uses Node 20, v4 actions, `npm ci` and `action-gh-release@v2`, and the build step and the dead `build`/`start` scripts are gone.
+- [x] **Publish RC tags as prereleases** (`.github/workflows/release.yml`) ([#21](https://github.com/Herm71/jc-core-functionality/issues/21)). The workflow ran on `-rc` tags but never set `prerelease`, so `v1.2.0-rc.0` became the Latest release, and the updater offers Latest to every installed site. The Release step now sets `prerelease` from the tag, and a test fails if it's removed.
 
 ## 2. Bugs — v1.0.2
 
