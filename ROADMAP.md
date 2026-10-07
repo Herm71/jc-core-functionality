@@ -10,6 +10,10 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 When you close an issue, tick its box here too.
 
+### Done on the `5-remove-update-filter` branch
+
+- Deleted the dead WordPress.org update filter (#5) and added a test that keeps PUC as the only update path.
+
 ### Done on the `17-plugin-update-checker` branch
 
 - Added plugin-update-checker 5.7 (#17). Release assets are required, and the checker runs in admin, cron and WP-CLI.
@@ -31,7 +35,7 @@ When you close an issue, tick its box here too.
 
 ## 2. Bugs — v1.0.2
 
-- [ ] **Replace the update-check filter** (`lib/functions/general.php`, `jc_custom_functionality_hidden`) ([#5](https://github.com/Herm71/jc-core-functionality/issues/5)). It never runs. WordPress now checks for updates at an `https://` address and sends JSON, but the filter only matches `http://` and unserializes the body. `plugin_basename(__FILE__)` also resolves to the wrong file. Delete the function. Once #17 is done, the `Update URI:` header isn't needed.
+- [x] **Delete the dead update-check filter** (`lib/functions/general.php`, `jc_custom_functionality_hidden`) ([#5](https://github.com/Herm71/jc-core-functionality/issues/5)). It never ran: it matched `http://`, but WordPress calls the endpoint over `https://`. Had it matched, `unserialize()` on the JSON body would have caused a fatal under PHP 8. Deleted rather than repaired, because `jc-core-functionality` doesn't exist on WordPress.org, and plugin-update-checker now handles updates. A test now fails if any plugin file filters `http_request_args`.
 - [ ] **Fix `[quotes]` leaving the global post changed** (`lib/functions/shortcodes.php`) ([#6](https://github.com/Herm71/jc-core-functionality/issues/6)). `wp_reset_postdata()` comes after `return`, so it never runs. Move it before the return, and escape the title with `esc_html()`.
 - [ ] **Fix the settings page markup** (`lib/functions/settings.php`) ([#7](https://github.com/Herm71/jc-core-functionality/issues/7)). There's a closing `</div>` with no opening `<div class="wrap">`. Escape `Version` and `Description` on output.
 - [ ] **Remove the duplicate include** of `security-headers.php` (`plugin.php`) ([#8](https://github.com/Herm71/jc-core-functionality/issues/8)).
