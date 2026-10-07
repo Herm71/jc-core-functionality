@@ -2,6 +2,7 @@
 	"name": "jason/jc-core-functionality",
 	"description": "Core functionality plugin for RCID",
 	"type": "project",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Jason Chafin",

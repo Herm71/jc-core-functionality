@@ -6,7 +6,8 @@
  * Version: 1.2.0-rc.0
  * Author: Jason Chafin
  * Author URI: https://github.com/Herm71
- * License: GPL2
+ * License: GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires Plugins: advanced-custom-fields-pro
  */
 
