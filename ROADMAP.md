@@ -10,6 +10,11 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 When you close an issue, tick its box here too.
 
+### Done on the `v1.0.2-remaining-fixes` branch
+
+- Fixed #3 (license), #6 (`[quotes]`), #7 (settings page) and #8 (duplicate include). This closes the v1.0.2 milestone.
+- Added PHPUnit with minimal WordPress stubs (`composer test`, `tests/php/`), with behaviour tests for `[quotes]` and the settings page.
+
 ### Done on the `5-remove-update-filter` branch
 
 - Deleted the dead WordPress.org update filter (#5) and added a test that keeps PUC as the only update path.
@@ -30,15 +35,15 @@ When you close an issue, tick its box here too.
 ## 1. Release packaging — v1.0.2
 
 - [x] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2), done as part of #17). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
-- [ ] **Add the missing `LICENSE` file**, or remove it from `files` ([#3](https://github.com/Herm71/jc-core-functionality/issues/3)). The plugin header says GPL2, but `package.json` says `ISC`. Pick one and use it in both places.
+- [x] **Add the missing `LICENSE` file** ([#3](https://github.com/Herm71/jc-core-functionality/issues/3)). The plugin is now GPL-2.0-or-later everywhere: plugin header (plus `License URI`), `package.json`, `package-lock.json` and `composer.json`. The full GPL-2.0 text is in `LICENSE`.
 - [x] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4), done as part of #17). It pinned Node 14 and old action versions, and ran `npm run build` with no `src/`. It now uses Node 20, v4 actions, `npm ci` and `action-gh-release@v2`, and the build step and the dead `build`/`start` scripts are gone.
 
 ## 2. Bugs — v1.0.2
 
 - [x] **Delete the dead update-check filter** (`lib/functions/general.php`, `jc_custom_functionality_hidden`) ([#5](https://github.com/Herm71/jc-core-functionality/issues/5)). It never ran: it matched `http://`, but WordPress calls the endpoint over `https://`. Had it matched, `unserialize()` on the JSON body would have caused a fatal under PHP 8. Deleted rather than repaired, because `jc-core-functionality` doesn't exist on WordPress.org, and plugin-update-checker now handles updates. A test now fails if any plugin file filters `http_request_args`.
-- [ ] **Fix `[quotes]` leaving the global post changed** (`lib/functions/shortcodes.php`) ([#6](https://github.com/Herm71/jc-core-functionality/issues/6)). `wp_reset_postdata()` comes after `return`, so it never runs. Move it before the return, and escape the title with `esc_html()`.
-- [ ] **Fix the settings page markup** (`lib/functions/settings.php`) ([#7](https://github.com/Herm71/jc-core-functionality/issues/7)). There's a closing `</div>` with no opening `<div class="wrap">`. Escape `Version` and `Description` on output.
-- [ ] **Remove the duplicate include** of `security-headers.php` (`plugin.php`) ([#8](https://github.com/Herm71/jc-core-functionality/issues/8)).
+- [x] **Fix `[quotes]` leaving the global post changed** (`lib/functions/shortcodes.php`) ([#6](https://github.com/Herm71/jc-core-functionality/issues/6)). `wp_reset_postdata()` now runs before the return, the title is escaped with `esc_html()`, and the query skips the row count with `no_found_rows`.
+- [x] **Fix the settings page markup** (`lib/functions/settings.php`) ([#7](https://github.com/Herm71/jc-core-functionality/issues/7)). The page is wrapped in `<div class="wrap">`, the unclosed `<li>` is closed, and the header values are fetched as plain text and escaped. The block-binding example was being hidden as an HTML comment; it's now escaped so it shows as text.
+- [x] **Remove the duplicate include** of `security-headers.php` (`plugin.php`) ([#8](https://github.com/Herm71/jc-core-functionality/issues/8)).
 
 ## 3. Security and hardening — v1.1.0
 
