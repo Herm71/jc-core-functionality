@@ -18,16 +18,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Load ACF JSON (field groups, post types) from the plugin.
+ * Load ACF JSON (field groups, post types) from the plugin, and only the plugin.
+ *
+ * ACF's default load path, $paths[0], is the active theme's acf-json/ folder.
+ * It is removed on purpose: this plugin exists so the site's content model
+ * survives a theme change, so the field groups and post types must have one
+ * source. A theme's leftover acf-json/ could otherwise load duplicates of, or
+ * override, the definitions here. To add theme-specific field groups, append
+ * another path with a later acf/settings/load_json filter rather than
+ * removing this unset().
  *
  * @param string[] $paths ACF JSON load paths.
  * @return string[]
  */
 function jc_add_json_load_point( $paths ) {
-	// Remove the original path (optional).
 	unset( $paths[0] );
 
-	// Append the new path and return it.
 	$paths[] = JC_DIR . '/acf-json';
 
 	return $paths;
