@@ -52,8 +52,41 @@ Example:
 ### Site-wide
 
 - **Google Tag Manager:** container snippets in `<head>` and right after `<body>`.
-- **Security headers** on front-end responses, including a Content Security Policy.
+- **Security headers** on front-end responses: `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy` and a Content Security Policy (see below).
 - **XML-RPC disabled:** all methods are removed and the RSD link is taken out of `<head>`, to block brute-force login attempts through `/xmlrpc.php`.
+
+## Content Security Policy
+
+Scripts are trusted by a nonce that changes on every request, not by a host list. WordPress adds the nonce to every script printed through its script API (enqueued scripts, inline scripts, the import map and speculation rules). `'strict-dynamic'` extends that trust to the scripts they load, such as GTM and GA4. Styles still allow `'unsafe-inline'`, because block styles are printed inline.
+
+**The policy currently ships as `Content-Security-Policy-Report-Only`.** Browsers report what it *would* block without blocking it. In the meantime a minimal policy is enforced (`object-src 'none'; base-uri 'self'; frame-ancestors 'self'`).
+
+Reports are sent to `/wp-json/jc/v1/csp-report` and written to the PHP error log, one JSON line each, prefixed `[jc-csp]`:
+
+```sh
+grep '\[jc-csp\]' /path/to/php-error.log
+```
+
+If `WP_DEBUG_LOG` is enabled, WordPress redirects the error log to `wp-content/debug.log` (or the path the constant names), so look there instead.
+
+Chrome sends reports through the Reporting API (`report-to`), which only delivers to `https://` endpoints and batches reports, so they can arrive a minute or more after the violation. Other browsers use `report-uri` and send immediately.
+
+When the log shows nothing legitimate being blocked, enforce the policy:
+
+```php
+add_filter( 'jc_csp_report_only', '__return_false' );
+```
+
+To allow another source, filter the directives:
+
+```php
+add_filter( 'jc_csp_directives', function ( $directives ) {
+	$directives['frame-src'][] = 'https://www.youtube-nocookie.com';
+	return $directives;
+} );
+```
+
+Any script printed as a raw `<script>` tag, rather than through `wp_enqueue_script()`, `wp_add_inline_script()` or `wp_print_inline_script_tag()`, gets no nonce and will be blocked once the policy is enforced.
 
 ## Uninstalling
 

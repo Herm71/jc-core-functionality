@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A site-specific WordPress plugin for jasonchafin.com. It holds functionality that should survive a theme change (post types, fields, analytics, security headers, block bindings). It requires **ACF Pro** (declared via `Requires Plugins: advanced-custom-fields-pro`). The plugin was forked from a UCSC/RCID plugin. The only remaining UCSC references are hosts in the CSP, which #9 will rebuild. `tests/code-standards.test.js` fails if new ones appear anywhere else.
+A site-specific WordPress plugin for jasonchafin.com. It holds functionality that should survive a theme change (post types, fields, analytics, security headers, block bindings). It requires **ACF Pro** (declared via `Requires Plugins: advanced-custom-fields-pro`). The plugin was forked from a UCSC/RCID plugin. No UCSC references remain, and `tests/code-standards.test.js` fails if any reappear.
 
 ## Commands
 
@@ -30,7 +30,7 @@ Neither `vendor/` nor `node_modules/` is committed. Run `composer install` and `
 - Block Bindings sources are registered in `general.php`: `jc/copyright` and `jc/user-data` (args `key` = `name|description|avatar` and `userId`). The settings page in `settings.php` is a static info page that documents features. Update it when you add user-facing features.
 - **Updates come from GitHub releases** through plugin-update-checker (PUC), a Composer runtime dependency loaded from `vendor/`. It runs only in admin, cron and WP-CLI, and installs only the `jc-core-functionality.zip` release asset. The slug `jc-core-functionality` must match in `plugin.php`, `uninstall.php` (PUC's option, transient and cron names), `package.json` `name` and the release workflow. `tests/update-checker-config.test.js` enforces this.
 - `uninstall.php` removes only PUC's data. By policy, `person` and `quote` content is never deleted.
-- `gtm.php` hard-codes GTM container `GTM-WNP9BDSD`. `security-headers.php` sets the CSP via the `wp_headers` filter on the front end only. Any new third-party script or embed domain has to be added to that CSP string.
+- `gtm.php` hard-codes GTM container `GTM-WNP9BDSD`. `security-headers.php` builds a nonce-based CSP (`jc_csp_directives()`, filterable through `jc_csp_directives`) and sends it as Report-Only until `jc_csp_report_only` returns false. Admin and the Customizer preview are excluded. `csp-report.php` adds the `/wp-json/jc/v1/csp-report` endpoint, which logs violations as `[jc-csp]` lines in the PHP error log. Scripts must be printed through the script API to get the nonce; `tests/code-standards.test.js` rejects raw `<script>` tags in PHP. A new third-party host needs adding to the right directive in `jc_csp_directives()`, not to a single string.
 
 ## Gotchas
 

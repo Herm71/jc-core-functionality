@@ -72,7 +72,6 @@ test( 'dates use the site timezone', () => {
 } );
 
 test( 'no leftovers from the UCSC/RCID plugin this was copied from', () => {
-	// The CSP still lists UCSC hosts until it is rebuilt in #9.
 	const files = [
 		...phpFiles,
 		'uninstall.php',
@@ -81,15 +80,28 @@ test( 'no leftovers from the UCSC/RCID plugin this was copied from', () => {
 		'README.md',
 	];
 	for ( const file of files ) {
-		const lines = read( file )
-			.split( '\n' )
-			.filter( ( line ) => ! line.includes( 'Content-Security-Policy' ) );
-		for ( const line of lines ) {
+		for ( const line of read( file ).split( '\n' ) ) {
 			assert.doesNotMatch(
 				line,
 				/ucsc|rcid|santa cruz|gmail\.edu/i,
 				`${ file }: ${ line.trim() }`
 			);
 		}
+	}
+} );
+
+test( 'no raw <script> tags in PHP; scripts go through the script API', () => {
+	// The CSP trusts scripts by nonce, which WordPress adds only to tags
+	// printed by wp_print_script_tag() / wp_print_inline_script_tag() and
+	// enqueued scripts. A literal <script> would be blocked once enforced.
+	const stripComments = ( src ) =>
+		src.replace( /\/\*[\s\S]*?\*\//g, '' ).replace( /^\s*\/\/.*$/gm, '' );
+
+	for ( const file of phpFiles ) {
+		assert.doesNotMatch(
+			stripComments( read( file ) ),
+			/<script\b/i,
+			`${ file } prints a raw <script> tag`
+		);
 	}
 } );
