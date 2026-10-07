@@ -16,6 +16,9 @@
 	"bugs": {
 		"url": "https://github.com/Herm71/jc-core-functionality/issues"
 	},
+	"engines": {
+		"node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+	},
 	"directories": {
 		"lib": "lib"
 	},
@@ -30,11 +33,11 @@
 	],
 	"devDependencies": {
 		"@wordpress/prettier-config": "^3.5.0",
-		"@wordpress/scripts": "^34.2.0",
+		"@wordpress/scripts": "^36.1.0",
 		"commit-and-tag-version": "^13.2.1",
 		"husky": "^9.1.7",
-		"lint-staged": "^15.2.0",
-		"prettier": "^3.1.1"
+		"lint-staged": "^17.6.0",
+		"prettier": "npm:wp-prettier@^3.9.6"
 	},
 	"scripts": {
 		"format": "wp-scripts format",
