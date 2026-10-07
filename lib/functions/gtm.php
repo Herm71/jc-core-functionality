@@ -12,6 +12,11 @@
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 add_action('wp_head', 'jc_google_tag_manager_head', -1 );
 add_action('wp_body_open', 'jc_google_tag_manager_body', -1 );
 

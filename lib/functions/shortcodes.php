@@ -12,6 +12,11 @@
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
 
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 add_shortcode( 'quotes','jc_quotes_loop' );
 function jc_quotes_loop() {
 	$finalloop = '';

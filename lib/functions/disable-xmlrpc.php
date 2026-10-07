@@ -8,6 +8,11 @@
  * see: https://pantheon.io/docs/wordpress-best-practices#avoid-xml-rpc-attacks
  */
 
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 add_filter(
     'xmlrpc_methods',
     function () {

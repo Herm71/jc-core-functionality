@@ -12,6 +12,12 @@
  * @copyright Copyright (c) 2011, Jason Chafin
  * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
+
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 function jc_additional_securityheaders( $headers )
 {
     if (! is_admin() ) {

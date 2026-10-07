@@ -10,6 +10,12 @@
  * @author       UC Santa Cruz
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
  */
+
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /** Register new menu and page */
 if ( ! function_exists( 'jc_add_settings_page' ) ) {
 	function jc_add_settings_page() {
