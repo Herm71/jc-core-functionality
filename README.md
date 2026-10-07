@@ -67,6 +67,10 @@ Reports are sent to `/wp-json/jc/v1/csp-report` and written to the PHP error log
 grep '\[jc-csp\]' /path/to/php-error.log
 ```
 
+If `WP_DEBUG_LOG` is enabled, WordPress redirects the error log to `wp-content/debug.log` (or the path the constant names), so look there instead.
+
+Chrome sends reports through the Reporting API (`report-to`), which only delivers to `https://` endpoints and batches reports, so they can arrive a minute or more after the violation. Other browsers use `report-uri` and send immediately.
+
 When the log shows nothing legitimate being blocked, enforce the policy:
 
 ```php
