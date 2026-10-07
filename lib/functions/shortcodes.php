@@ -20,17 +20,17 @@ function jc_quotes_loop() {
 	'post_type' => 'quote',
 	'orderby' => 'rand',
 	'posts_per_page' => 1,
-
+	'no_found_rows' => true,
 	);
 	$quote = new \WP_Query( $args );
 	if ($quote->have_posts()) :
 		while ($quote->have_posts()) :
 			$quote->the_post();
 			$quoteTitle = get_the_title();
-			$finalloop .= '<p>'.$quoteTitle.'</p>';
+			$finalloop .= '<p>' . esc_html( $quoteTitle ) . '</p>';
 		endwhile;
 	endif;
-	return $finalloop;
+	// the_post() replaced the global $post; restore it before returning.
 	wp_reset_postdata();
+	return $finalloop;
 }
-
