@@ -24,10 +24,17 @@ add_action( 'admin_menu', 'jc_add_settings_page' );
  */
 if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
 	function jc_render_plugin_settings_page() {
-		$plugin_data = get_plugin_data( JC_DIR . '/plugin.php');
-		?><h1>Jason Chafin Custom Functionality Plugin</h1>
-		<h2>Version: <?php echo $plugin_data['Version']; ?></h2>
-		<p><?php echo $plugin_data['Description']; ?> <a href="https://github.com/Herm71/jc-core-functionality/releases">(release notes)</a></p>
+		// Markup off: return plain header values, escaped below.
+		$plugin_data = get_plugin_data( JC_DIR . '/plugin.php', false, false );
+
+		// Shown as text, so it must be escaped rather than emitted as an HTML comment.
+		$copyright_block = '<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"jc/copyright"}}}} -->' . "\n"
+			. '<p>Copyright Block</p>' . "\n"
+			. '<!-- /wp:paragraph -->';
+		?><div class="wrap">
+		<h1>Jason Chafin Custom Functionality Plugin</h1>
+		<h2>Version: <?php echo esc_html( $plugin_data['Version'] ); ?></h2>
+		<p><?php echo esc_html( $plugin_data['Description'] ); ?> <a href="https://github.com/Herm71/jc-core-functionality/releases">(release notes)</a></p>
 		<hr>
 		<h3>Features added by this plugin:</h3>
 		<ul>
@@ -40,13 +47,10 @@ if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
 			</li>
 			<li><strong>Block Bindings:</strong>
 				<ul>
-					<li>Copyright <blockquote><pre><!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"jc/copyright"}}}} -->
-<p>Copyright Block</p>
-<!-- /wp:paragraph --></pre></blockquote>
+					<li>Copyright <blockquote><pre><?php echo esc_html( $copyright_block ); ?></pre></blockquote></li>
 				</ul>
 			</li>
 		</ul>
 		</div><?php
 	}
 }
-

@@ -13,7 +13,11 @@ A site-specific WordPress plugin for jasonchafin.com. It holds functionality tha
 Neither `vendor/` nor `node_modules/` is committed. Run `composer install` and `npm install` first.
 
 - PHP lint: `composer lint`, and auto-fix with `composer lint-fix`. There is no `phpcs.xml`, so pass the standard and paths yourself: `vendor/bin/phpcs --standard=WordPress plugin.php uninstall.php lib/`.
-- Tests: `npm run test:unit` (Node's built-in `node:test`, files in `tests/`). Run one file with `node --test tests/<name>.test.js`. There are no PHP tests. `npm test` still runs `lint-staged`, which has no config.
+- Tests:
+  - JS/config checks: `npm run test:unit` (Node's built-in `node:test`, files in `tests/*.test.js`). Run one file with `node --test tests/<name>.test.js`.
+  - PHP: `composer test` or `npm run test:php` (PHPUnit, files in `tests/php/`). Run one test with `vendor/bin/phpunit --filter <name>`.
+  - The PHP tests run without WordPress. `tests/php/bootstrap.php` stubs only the WP functions the loaded feature files call, and records the calls. A new feature file under test needs its WP calls stubbed there and a `require_once` added.
+  - `npm test` still runs `lint-staged`, which has no config.
 - Release zip: `npm run zip`. It packages only the `files` list in `package.json` into a `jc-core-functionality/` root folder. Run `composer install --no-dev` first, or dev dependencies end up in `vendor/` in the zip.
 - Release: `npm run release` (commit-and-tag-version). It bumps `package.json`, `package-lock.json` and the `Version:` header in `plugin.php` (via `wp-plugin-version-updater.js`), updates `CHANGELOG.md` from Conventional Commits, and tags `vX.Y.Z`. Pushing the tag triggers `.github/workflows/release.yml`, which runs `composer install --no-dev` and `plugin-zip`, then attaches `jc-core-functionality.zip` to a GitHub release.
 
