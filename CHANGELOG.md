@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.3.0](https://github.com/Herm71/jc-core-functionality/compare/v1.2.0...v1.3.0) (2026-10-07)
+
+### Features
+
+* :chart_with_upwards_trend: Make the GTM container configurable; skip admins ([3f94c4a](https://github.com/Herm71/jc-core-functionality/commit/3f94c4a5722f6bec5dfe2eba83bfc2f96f5bfc67)), closes [#15](https://github.com/Herm71/jc-core-functionality/issues/15)
+
+### Bug Fixes
+
+* :green_heart: Let the shell expand the node:test glob ([87c4761](https://github.com/Herm71/jc-core-functionality/commit/87c47616ea9c85253eb62dee1df0e33bc6e1b14d)), references [#14](https://github.com/Herm71/jc-core-functionality/issues/14)
+
 ## [1.2.0](https://github.com/Herm71/jc-core-functionality/compare/v1.0.1...v1.2.0) (2026-10-07)
 
 ### Features
