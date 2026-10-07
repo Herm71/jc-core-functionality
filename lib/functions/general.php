@@ -71,11 +71,11 @@ add_action( 'init', 'jc_register_block_bindings' );
 
 function jc_register_block_bindings() {
 	register_block_bindings_source( 'jc/copyright', array(
-		'label'              => __( 'Copyright', 'jc' ),
+		'label'              => __( 'Copyright', 'jc-core-functionality' ),
 		'get_value_callback' => 'jc_copyright_binding'
 	) );
 	register_block_bindings_source( 'jc/user-data', array(
-		'label'              => __( 'User Data', 'jc' ),
+		'label'              => __( 'User Data', 'jc-core-functionality' ),
 		'get_value_callback' => 'jc_user_data_bindings'
 	) );
 }

@@ -8,6 +8,7 @@
  * Author URI: https://github.com/Herm71
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain: jc-core-functionality
  * Requires Plugins: advanced-custom-fields-pro
  */
 
@@ -70,7 +71,7 @@ function jc_custom_functionality_plugin_action_links( $links ) {
 		get_admin_url() . 'options-general.php'
 	) );
 	// Create the link.
-	$settings_link = "<a href='$url'>" . __( 'Settings' ) . '</a>';
+	$settings_link = "<a href='$url'>" . esc_html__( 'Settings', 'jc-core-functionality' ) . '</a>';
 	// Adds the link to the end of the array.
 	array_push(
 		$links,
