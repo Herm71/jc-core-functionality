@@ -1,14 +1,14 @@
 <?php
 /**
- * Add Plugin settings and info page
+ * Plugin info page
  *
- * This file contains functions to add a settings/info page below WordPress Settings menu
+ * Adds an info page under Settings that lists what this plugin provides.
  *
- * @package      ucsc
- * @since        1.7.0
- * @link         https://github.com/ucsc/jc-custom-functionality.git
- * @author       UC Santa Cruz
- * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @package   jc_Custom_Functionality
+ * @since     1.0.0
+ * @link      https://github.com/Herm71/jc-core-functionality
+ * @author    Jason Chafin
+ * @license   GPL-2.0-or-later
  */
 
 // Block direct access.

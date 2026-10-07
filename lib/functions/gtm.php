@@ -2,14 +2,14 @@
 /**
  * Google Tag Manager
  *
- * This file contains the functions necessary to add the RCID Google Analytics and Tag Manager snippets to the site.
+ * Adds the Google Tag Manager snippets (and through them Google Analytics) to the site.
  *
- * @package   Core_Functionality
- * @since     1.1.0
- * @link      https://github.com/Herm71/jc-core-functionality.git
+ * @package   jc_Custom_Functionality
+ * @since     1.0.0
+ * @link      https://github.com/Herm71/jc-core-functionality
  * @author    Jason Chafin
  * @copyright Copyright (c) 2011, Jason Chafin
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license   GPL-2.0-or-later
  */
 
 // Block direct access.

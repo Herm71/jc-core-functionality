@@ -2,14 +2,14 @@
 /**
  * Shortcodes
  *
- * This file contains Shortcode functions
+ * Registers the [quotes] shortcode.
  *
  * @package   jc_Custom_Functionality
  * @since     1.0.0
- * @link      https://github.com/Herm71/jc-core-functionality.git
+ * @link      https://github.com/Herm71/jc-core-functionality
  * @author    Jason Chafin
  * @copyright Copyright (c) 2015, Blackbird Consulting
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license   GPL-2.0-or-later
  */
 
 // Block direct access.

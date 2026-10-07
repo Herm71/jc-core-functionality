@@ -2,15 +2,16 @@
 /**
  * Security Headers
  *
- * This file contains the functions necessary to add security headers to the site.
- * see: https://pantheon.io/docs/wordpress-best-practices#security-headers
+ * Adds security headers, including the Content Security Policy, to front-end responses.
  *
- * @package   Core_Functionality
- * @since     1.1.0
- * @link      https://github.com/Herm71/jc-core-functionality.git
+ * @see https://pantheon.io/docs/wordpress-best-practices#security-headers
+ *
+ * @package   jc_Custom_Functionality
+ * @since     1.0.0
+ * @link      https://github.com/Herm71/jc-core-functionality
  * @author    Jason Chafin
  * @copyright Copyright (c) 2011, Jason Chafin
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license   GPL-2.0-or-later
  */
 
 // Block direct access.
