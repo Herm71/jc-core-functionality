@@ -44,14 +44,13 @@
 		"prettier": "^3.1.1"
 	},
 	"files": [
-		"!node_modules",
-		"!vendor",
-		"!package.json",
 		"lib",
-		"plugin.php",
+		"vendor",
+		"acf-json",
+		"*.php",
 		"README.md",
-		"CHANGELOG.md",
-		"LICENSE"
+		"LICENSE",
+		"CHANGELOG.md"
 	],
 	"commit-and-tag-version": {
 		"bumpFiles": [

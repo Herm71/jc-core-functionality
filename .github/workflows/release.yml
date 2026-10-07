@@ -26,7 +26,13 @@ jobs:
             - name: Build theme
               run: npm run build
 
-            - name: Package theme
+            # Ships the plugin-update-checker runtime into vendor/ so it is
+            # present in the packaged zip. Without this the updater silently
+            # no-ops on the live site.
+            - name: Install PHP dependencies
+              run: composer install --no-dev --optimize-autoloader --prefer-dist --no-interaction
+
+            - name: Package plugin
               run: ./node_modules/.bin/wp-scripts plugin-zip
 
             - name: Release
