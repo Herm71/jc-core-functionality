@@ -72,3 +72,24 @@ test( 'CI installs runtime PHP dependencies before packaging', () => {
 test( 'no competing GitHub Updater header', () => {
 	assert.doesNotMatch( plugin, /GitHub Plugin URI:/ );
 } );
+
+test( 'no PHP file rewrites update-check requests', () => {
+	// PUC is the only update path. A request filter here would compete with
+	// it, and the previous one (#5) was dead code that would fatal if it ran.
+	const phpFiles = [
+		'plugin.php',
+		'uninstall.php',
+		...fs
+			.readdirSync( path.join( root, 'lib/functions' ) )
+			.filter( ( f ) => f.endsWith( '.php' ) )
+			.map( ( f ) => `lib/functions/${ f }` ),
+	];
+
+	for ( const file of phpFiles ) {
+		assert.doesNotMatch(
+			read( file ),
+			/['"]http_request_args['"]/,
+			`${ file } filters http_request_args`
+		);
+	}
+} );
