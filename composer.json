@@ -1,12 +1,12 @@
 {
 	"name": "jason/jc-core-functionality",
-	"description": "Core functionality plugin for RCID",
+	"description": "Core functionality plugin for jasonchafin.com",
 	"type": "project",
 	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Jason Chafin",
-			"email": "jchafin@ucsc.edu"
+			"email": "jasonchafin@gmail.com"
 		}
 	],
 	"require-dev": {

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A site-specific WordPress plugin for jasonchafin.com. It holds functionality that should survive a theme change (post types, fields, analytics, security headers, block bindings). It requires **ACF Pro** (declared via `Requires Plugins: advanced-custom-fields-pro`). The plugin was forked from a UCSC/RCID plugin, and some UCSC references remain (CSP domains, `composer.json` description and email, `settings.php` docblock).
+A site-specific WordPress plugin for jasonchafin.com. It holds functionality that should survive a theme change (post types, fields, analytics, security headers, block bindings). It requires **ACF Pro** (declared via `Requires Plugins: advanced-custom-fields-pro`). The plugin was forked from a UCSC/RCID plugin. The only remaining UCSC references are hosts in the CSP, which #9 will rebuild. `tests/code-standards.test.js` fails if new ones appear anywhere else.
 
 ## Commands
 
@@ -34,7 +34,6 @@ Neither `vendor/` nor `node_modules/` is committed. Run `composer install` and `
 
 ## Gotchas
 
-- The release zip is built from the `files` list in `package.json`. A new top-level directory won't ship unless it's added there. The list includes a `LICENSE` file that doesn't exist yet (#3).
+- The release zip is built from the `files` list in `package.json`. A new top-level directory won't ship unless it's added there.
 - If `vendor/` is missing from the zip, the updater does nothing and shows no error, because of the `file_exists()` guard.
-- The `.editorconfig` uses tabs, but older files mix in spaces and PEAR-style braces.
-- `lib/functions/updater.php` is empty and not included anywhere.
+- Every PHP file starts with an `ABSPATH` guard, every translation call uses the `jc-core-functionality` text domain, and dates use `wp_date()`, not `date()`. `tests/code-standards.test.js` enforces all three, so a new feature file needs the guard.

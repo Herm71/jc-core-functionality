@@ -2,37 +2,40 @@
 /**
  * General
  *
- * This file contains any general functions
+ * ACF JSON load/save paths, registered post meta and block bindings sources.
  *
  * @package   jc_Custom_Functionality
  * @since     1.0.0
- * @link      https://github.com/Herm71/jc-core-functionality.git
+ * @link      https://github.com/Herm71/jc-core-functionality
  * @author    Jason Chafin
  * @copyright Copyright (c) 2015, Blackbird Consulting
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license   GPL-2.0-or-later
  */
+
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Add new load point for JSON
  */
-
 function jc_add_json_load_point( $paths ) {
-    // Remove the original path (optional).
-    unset($paths[0]);
+	// Remove the original path (optional).
+	unset( $paths[0] );
 
-    // Append the new path and return it.
-    $paths[] = JC_DIR . '/acf-json';
+	// Append the new path and return it.
+	$paths[] = JC_DIR . '/acf-json';
 
-    return $paths;
+	return $paths;
 }
 add_filter( 'acf/settings/load_json', 'jc_add_json_load_point' );
 
 /**
  * Add new save point for JSON
  */
-
 function jc_add_json_save_point( $path ) {
-    return JC_DIR . '/acf-json';
+	return JC_DIR . '/acf-json';
 }
 add_filter( 'acf/settings/save_json', 'jc_add_json_save_point' );
 
@@ -41,7 +44,7 @@ add_filter( 'acf/settings/save_json', 'jc_add_json_save_point' );
 add_action( 'init', 'jc_acf_register_meta' );
 
 function jc_acf_register_meta() {
-	$terms = array('subtitle');
+	$terms = array( 'subtitle' );
 
 	foreach ( $terms as $term ) {
 		register_meta(
@@ -51,11 +54,10 @@ function jc_acf_register_meta() {
 				'show_in_rest'      => true,
 				'single'            => true,
 				'type'              => 'string',
-				'sanitize_callback' => 'wp_strip_all_tags'
+				'sanitize_callback' => 'wp_strip_all_tags',
 			)
 		);
 	}
-
 }
 
 
@@ -65,19 +67,25 @@ function jc_acf_register_meta() {
 add_action( 'init', 'jc_register_block_bindings' );
 
 function jc_register_block_bindings() {
-	register_block_bindings_source( 'jc/copyright', array(
-		'label'              => __( 'Copyright', 'jc' ),
-		'get_value_callback' => 'jc_copyright_binding'
-	) );
-	register_block_bindings_source( 'jc/user-data', array(
-		'label'              => __( 'User Data', 'jc' ),
-		'get_value_callback' => 'jc_user_data_bindings'
-	) );
+	register_block_bindings_source(
+		'jc/copyright',
+		array(
+			'label'              => __( 'Copyright', 'jc-core-functionality' ),
+			'get_value_callback' => 'jc_copyright_binding',
+		)
+	);
+	register_block_bindings_source(
+		'jc/user-data',
+		array(
+			'label'              => __( 'User Data', 'jc-core-functionality' ),
+			'get_value_callback' => 'jc_user_data_bindings',
+		)
+	);
 }
 
 // Copyright callback
 function jc_copyright_binding() {
-	return '&copy; ' . date( 'Y' );
+	return '&copy; ' . wp_date( 'Y' );
 }
 
 // User Data callback
@@ -100,7 +108,8 @@ function jc_user_data_bindings( $source_args ) {
 		case 'name':
 			return esc_html( get_the_author_meta( 'display_name', $user_id ) );
 		case 'description':
-			return get_the_author_meta( 'description', $user_id );
+			// Bios may carry basic formatting (links, emphasis); allow post-safe HTML only.
+			return wp_kses_post( get_the_author_meta( 'description', $user_id ) );
 		case 'avatar':
 			return esc_url( get_avatar_url( $user_id ) );
 		default:

@@ -30,10 +30,21 @@ final class WP_Stubs {
 	/** @var int Number of wp_reset_postdata() calls. */
 	public static int $reset_postdata_calls = 0;
 
+	/** @var array<int, array<string, string>> User meta by user ID. */
+	public static array $user_meta = array();
+
+	/** @var string[] Formats passed to wp_date(). */
+	public static array $wp_date_calls = array();
+
+	/** @var string What wp_date() returns, standing in for the site-timezone year. */
+	public static string $wp_date_year = '2031';
+
 	public static function reset(): void {
 		self::$plugin_data          = array();
 		self::$plugin_data_calls    = array();
 		self::$reset_postdata_calls = 0;
+		self::$user_meta            = array();
+		self::$wp_date_calls        = array();
 		WP_Query::$posts            = array();
 		WP_Query::$last_args        = array();
 		$GLOBALS['post']            = null;
@@ -102,5 +113,43 @@ function get_plugin_data( string $file, bool $markup = true, bool $translate = t
 	return WP_Stubs::$plugin_data;
 }
 
+function __( $text, $domain = 'default' ) {
+	return $text;
+}
+
+function absint( $value ): int {
+	return abs( (int) $value );
+}
+
+function esc_url( $url ): string {
+	return htmlspecialchars( (string) $url, ENT_QUOTES, 'UTF-8', false );
+}
+
+/**
+ * Approximates wp_kses_post(): drops script/style elements and on* handlers,
+ * keeps ordinary post markup such as links and emphasis.
+ */
+function wp_kses_post( $content ): string {
+	$content = preg_replace( '#<(script|style)\b[^>]*>.*?</\1>#is', '', (string) $content );
+	return preg_replace( '#\s+on[a-z]+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)#i', '', $content );
+}
+
+function wp_date( string $format ): string {
+	WP_Stubs::$wp_date_calls[] = $format;
+	return WP_Stubs::$wp_date_year;
+}
+
+function get_the_author_meta( string $field, int $user_id ): string {
+	return WP_Stubs::$user_meta[ $user_id ][ $field ] ?? '';
+}
+
+function get_avatar_url( int $user_id ): string {
+	return WP_Stubs::$user_meta[ $user_id ]['avatar'] ?? '';
+}
+
+function register_meta( ...$args ) {}
+function register_block_bindings_source( ...$args ) {}
+
+require_once JC_DIR . '/lib/functions/general.php';
 require_once JC_DIR . '/lib/functions/shortcodes.php';
 require_once JC_DIR . '/lib/functions/settings.php';

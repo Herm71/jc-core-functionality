@@ -2,29 +2,34 @@
 /**
  * Shortcodes
  *
- * This file contains Shortcode functions
+ * Registers the [quotes] shortcode.
  *
  * @package   jc_Custom_Functionality
  * @since     1.0.0
- * @link      https://github.com/Herm71/jc-core-functionality.git
+ * @link      https://github.com/Herm71/jc-core-functionality
  * @author    Jason Chafin
  * @copyright Copyright (c) 2015, Blackbird Consulting
- * @license   http://opensource.org/licenses/gpl-2.0.php GNU Public License
+ * @license   GPL-2.0-or-later
  */
 
-add_shortcode( 'quotes','jc_quotes_loop' );
+// Block direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+add_shortcode( 'quotes', 'jc_quotes_loop' );
 function jc_quotes_loop() {
 	$finalloop = '';
 	// Call Post
-	$args = array (
-	'post_type' => 'quote',
-	'orderby' => 'rand',
-	'posts_per_page' => 1,
-	'no_found_rows' => true,
+	$args  = array(
+		'post_type'      => 'quote',
+		'orderby'        => 'rand',
+		'posts_per_page' => 1,
+		'no_found_rows'  => true,
 	);
 	$quote = new \WP_Query( $args );
-	if ($quote->have_posts()) :
-		while ($quote->have_posts()) :
+	if ( $quote->have_posts() ) :
+		while ( $quote->have_posts() ) :
 			$quote->the_post();
 			$quoteTitle = get_the_title();
 			$finalloop .= '<p>' . esc_html( $quoteTitle ) . '</p>';
