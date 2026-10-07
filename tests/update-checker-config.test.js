@@ -69,6 +69,35 @@ test( 'CI installs runtime PHP dependencies before packaging', () => {
 	assert.ok( install < pack, 'composer install must run before plugin-zip' );
 } );
 
+test( 'RC tags are published as prereleases, never as Latest', () => {
+	// Regression for #21: PUC reads /releases/latest, which skips only
+	// releases flagged prerelease, so an unflagged RC reaches every site.
+	const release = workflow.slice( workflow.indexOf( '- name: Release' ) );
+	const match = release.match(
+		/prerelease:\s*\$\{\{\s*contains\(\s*github\.ref_name,\s*'([^']+)'\s*\)\s*\}\}/
+	);
+	assert.ok( match, 'Release step does not set prerelease from the tag' );
+
+	// GitHub's contains() is a case-insensitive substring test.
+	const isPrerelease = ( tag ) =>
+		tag.toLowerCase().includes( match[ 1 ].toLowerCase() );
+
+	assert.equal( isPrerelease( 'v1.2.0-rc.0' ), true );
+	assert.equal( isPrerelease( 'v1.2.0-rc.12' ), true );
+	assert.equal( isPrerelease( 'v1.2.0' ), false );
+	assert.equal( isPrerelease( 'v10.0.0' ), false );
+
+	// Every tag pattern that triggers the workflow and looks like an RC must
+	// be caught by the expression.
+	const triggers = [ ...workflow.matchAll( /^\s+- '(v[^']+)'$/gm ) ].map(
+		( m ) => m[ 1 ]
+	);
+	assert.ok( triggers.length > 0, 'no tag triggers found' );
+	for ( const pattern of triggers.filter( ( p ) => /rc/i.test( p ) ) ) {
+		assert.ok( isPrerelease( pattern ), `${ pattern } would publish as Latest` );
+	}
+} );
+
 test( 'no competing GitHub Updater header', () => {
 	assert.doesNotMatch( plugin, /GitHub Plugin URI:/ );
 } );
