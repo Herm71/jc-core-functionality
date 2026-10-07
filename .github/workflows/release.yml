@@ -37,3 +37,7 @@ jobs:
               with:
                   files: jc-core-functionality.zip
                   generate_release_notes: true
+                  # RC tags must not become "Latest": plugin-update-checker
+                  # reads /releases/latest, which skips only prereleases, so an
+                  # unflagged RC is offered to every installed site.
+                  prerelease: ${{ contains(github.ref_name, '-rc') }}
