@@ -78,8 +78,11 @@ function jc_csp_report_only() {
  * @return array<string, string[]>
  */
 function jc_csp_directives() {
+	// A *. wildcard matches subdomains only, so GA4's bare collect host
+	// (analytics.google.com) must be listed on its own.
 	$google_analytics = array(
 		'https://*.google-analytics.com',
+		'https://analytics.google.com',
 		'https://*.analytics.google.com',
 		'https://*.googletagmanager.com',
 		'https://stats.g.doubleclick.net',
