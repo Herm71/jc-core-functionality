@@ -105,7 +105,8 @@ function jc_user_data_bindings( $source_args ) {
 		case 'name':
 			return esc_html( get_the_author_meta( 'display_name', $user_id ) );
 		case 'description':
-			return get_the_author_meta( 'description', $user_id );
+			// Bios may carry basic formatting (links, emphasis); allow post-safe HTML only.
+			return wp_kses_post( get_the_author_meta( 'description', $user_id ) );
 		case 'avatar':
 			return esc_url( get_avatar_url( $user_id ) );
 		default:
