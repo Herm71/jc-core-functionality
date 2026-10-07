@@ -102,7 +102,6 @@ if (file_exists(JC_DIR . '/lib/functions/disable-xmlrpc.php') ) {
 }
 
 // Security Headers.
-require_once JC_DIR . '/lib/functions/security-headers.php';
 if (file_exists(JC_DIR . '/lib/functions/security-headers.php') ) {
     include_once JC_DIR . '/lib/functions/security-headers.php';
 }
