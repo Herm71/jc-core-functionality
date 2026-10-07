@@ -4,21 +4,25 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 | Milestone | Sections | Issues |
 | --- | --- | --- |
-| [v1.0.2 — Packaging & bug fixes](https://github.com/Herm71/jc-core-functionality/milestone/1) | 1–2 | #2–#8 |
+| [v1.0.2 — Packaging & bug fixes](https://github.com/Herm71/jc-core-functionality/milestone/1) | 0–2 | #17 (first), #2–#8 |
 | [v1.1.0 — Security & cleanup](https://github.com/Herm71/jc-core-functionality/milestone/2) | 3–4 | #9–#13 |
 | [v1.2.0 — Tooling & enhancements](https://github.com/Herm71/jc-core-functionality/milestone/3) | 5–6 | #14–#16 |
 
 When you close an issue, tick its box here too.
 
+## 0. GitHub-release updater — v1.0.2 (do first)
+
+- [ ] **Install updates from GitHub releases using [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker)** ([#17](https://github.com/Herm71/jc-core-functionality/issues/17)), built the same way as in [rcid-core-functionality](https://github.com/Herm71/rcid-core-functionality/pull/17). PUC is a Composer runtime dependency, and CI ships it in `vendor/`. It's registered only for the dashboard, cron and WP-CLI, and only accepts the `jc-core-functionality.zip` release asset (`REQUIRE_RELEASE_ASSETS`). The work also removes the `GitHub Plugin URI` header, moves to wp-scripts 34 and `commit-and-tag-version` with a fixed version updater, and adds an `uninstall.php` that clears PUC's stored data. Doing this first also takes care of most of #2 and #4, and turns #5 into a simple delete.
+
 ## 1. Release packaging — v1.0.2
 
-- [ ] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2)). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
+- [ ] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2), done as part of #17). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
 - [ ] **Add the missing `LICENSE` file**, or remove it from `files` ([#3](https://github.com/Herm71/jc-core-functionality/issues/3)). The plugin header says GPL2, but `package.json` says `ISC`. Pick one and use it in both places.
-- [ ] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4)). It pins Node 14 and old action versions. It also runs `npm run build`, but there is no `src/` to build. Either drop the build step or add a `src/` entry point.
+- [ ] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4), mostly covered by #17). It pins Node 14 and old action versions. It also runs `npm run build`, but there is no `src/` to build. Either drop the build step or add a `src/` entry point.
 
 ## 2. Bugs — v1.0.2
 
-- [ ] **Replace the update-check filter** (`lib/functions/general.php`, `jc_custom_functionality_hidden`) ([#5](https://github.com/Herm71/jc-core-functionality/issues/5)). It never runs. WordPress now checks for updates at an `https://` address and sends JSON, but the filter only matches `http://` and unserializes the body. `plugin_basename(__FILE__)` also resolves to the wrong file. Delete the function and add an `Update URI:` header to `plugin.php`.
+- [ ] **Replace the update-check filter** (`lib/functions/general.php`, `jc_custom_functionality_hidden`) ([#5](https://github.com/Herm71/jc-core-functionality/issues/5)). It never runs. WordPress now checks for updates at an `https://` address and sends JSON, but the filter only matches `http://` and unserializes the body. `plugin_basename(__FILE__)` also resolves to the wrong file. Delete the function. Once #17 is done, the `Update URI:` header isn't needed.
 - [ ] **Fix `[quotes]` leaving the global post changed** (`lib/functions/shortcodes.php`) ([#6](https://github.com/Herm71/jc-core-functionality/issues/6)). `wp_reset_postdata()` comes after `return`, so it never runs. Move it before the return, and escape the title with `esc_html()`.
 - [ ] **Fix the settings page markup** (`lib/functions/settings.php`) ([#7](https://github.com/Herm71/jc-core-functionality/issues/7)). There's a closing `</div>` with no opening `<div class="wrap">`. Escape `Version` and `Description` on output.
 - [ ] **Remove the duplicate include** of `security-headers.php` (`plugin.php`) ([#8](https://github.com/Herm71/jc-core-functionality/issues/8)).
