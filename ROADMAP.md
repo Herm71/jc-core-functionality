@@ -10,15 +10,24 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 When you close an issue, tick its box here too.
 
+### Done on the `17-plugin-update-checker` branch
+
+- Added plugin-update-checker 5.7 (#17). Release assets are required, and the checker runs in admin, cron and WP-CLI.
+- Replaced `standard-version` with `commit-and-tag-version`. The new `wp-plugin-version-updater.js` handles multi-digit and `-rc.N` versions.
+- Upgraded wp-scripts 26 → 34, so the zip has a `jc-core-functionality/` root folder.
+- The release zip now ships `vendor/` and `acf-json/` (#2), and the workflow was modernized (#4).
+- Added `uninstall.php`, which clears PUC's data and leaves content alone.
+- Added `npm run test:unit` with `node:test` tests for the version updater and the updater slug.
+
 ## 0. GitHub-release updater — v1.0.2 (do first)
 
-- [ ] **Install updates from GitHub releases using [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker)** ([#17](https://github.com/Herm71/jc-core-functionality/issues/17)), built the same way as in [rcid-core-functionality](https://github.com/Herm71/rcid-core-functionality/pull/17). PUC is a Composer runtime dependency, and CI ships it in `vendor/`. It's registered only for the dashboard, cron and WP-CLI, and only accepts the `jc-core-functionality.zip` release asset (`REQUIRE_RELEASE_ASSETS`). The work also removes the `GitHub Plugin URI` header, moves to wp-scripts 34 and `commit-and-tag-version` with a fixed version updater, and adds an `uninstall.php` that clears PUC's stored data. Doing this first also takes care of most of #2 and #4, and turns #5 into a simple delete.
+- [x] **Install updates from GitHub releases using [plugin-update-checker](https://github.com/YahnisElsts/plugin-update-checker)** ([#17](https://github.com/Herm71/jc-core-functionality/issues/17)), built the same way as in [rcid-core-functionality](https://github.com/Herm71/rcid-core-functionality/pull/17). PUC is a Composer runtime dependency, and CI ships it in `vendor/`. It's registered only for the dashboard, cron and WP-CLI, and only accepts the `jc-core-functionality.zip` release asset (`REQUIRE_RELEASE_ASSETS`). The work also removes the `GitHub Plugin URI` header, moves to wp-scripts 34 and `commit-and-tag-version` with a fixed version updater, and adds an `uninstall.php` that clears PUC's stored data. Doing this first also takes care of most of #2 and #4, and turns #5 into a simple delete.
 
 ## 1. Release packaging — v1.0.2
 
-- [ ] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2), done as part of #17). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
+- [x] **Ship `acf-json/` in the release zip** ([#2](https://github.com/Herm71/jc-core-functionality/issues/2), done as part of #17). `wp-scripts plugin-zip` packages only the paths in the `files` array of `package.json`, and `acf-json/` isn't in it. Releases therefore install without the `person` and `quote` post types or their field groups. Add `"acf-json"` to `files`.
 - [ ] **Add the missing `LICENSE` file**, or remove it from `files` ([#3](https://github.com/Herm71/jc-core-functionality/issues/3)). The plugin header says GPL2, but `package.json` says `ISC`. Pick one and use it in both places.
-- [ ] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4), mostly covered by #17). It pins Node 14 and old action versions. It also runs `npm run build`, but there is no `src/` to build. Either drop the build step or add a `src/` entry point.
+- [x] **Update the release workflow** (`.github/workflows/release.yml`) ([#4](https://github.com/Herm71/jc-core-functionality/issues/4), done as part of #17). It pinned Node 14 and old action versions, and ran `npm run build` with no `src/`. It now uses Node 20, v4 actions, `npm ci` and `action-gh-release@v2`, and the build step and the dead `build`/`start` scripts are gone.
 
 ## 2. Bugs — v1.0.2
 
