@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [1.2.0-rc.0](https://github.com/Herm71/jc-core-functionality/compare/v1.0.1...v1.2.0-rc.0) (2026-10-07)
+
+### Features
+
+* :arrows_counterclockwise: Update the plugin from GitHub releases ([96b3838](https://github.com/Herm71/jc-core-functionality/commit/96b38382488a772cb4b70db66aa4a8857decd454)), references [#17](https://github.com/Herm71/jc-core-functionality/issues/17)
+* :wastebasket: Clear update-checker state on uninstall ([f23bf6e](https://github.com/Herm71/jc-core-functionality/commit/f23bf6ea99983eed6320772fb8c760ec80040670)), references [#17](https://github.com/Herm71/jc-core-functionality/issues/17)
+
+### Bug Fixes
+
+* :package: Ship vendor/ and acf-json/ in the release zip ([e7c7278](https://github.com/Herm71/jc-core-functionality/commit/e7c72788a6f635da1be88df7cd14b3e3d5d6fe0f)), closes [#2](https://github.com/Herm71/jc-core-functionality/issues/2), references [#17](https://github.com/Herm71/jc-core-functionality/issues/17)
+
 ## [1.1.0](https://github.com/Herm71/jc-core-functionality/compare/v1.0.1...v1.1.0) (2026-10-07)
 
 ### Features
