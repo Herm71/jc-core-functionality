@@ -15,8 +15,8 @@
 		"phpunit/phpunit": "^12"
 	},
 	"scripts": {
-		"lint": "./vendor/bin/phpcs",
-		"lint-fix": "./vendor/bin/phpcbf --extensions=php .",
+		"lint": "phpcs",
+		"lint-fix": "phpcbf",
 		"test": "phpunit"
 	},
 	"config": {

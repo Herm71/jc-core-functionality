@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ruleset name="Jason Chafin Core Functionality">
+	<description>WordPress Coding Standards for the jc-core-functionality plugin.</description>
+
+	<!--
+		composer lint passes no path; without this phpcs exits 3 with
+		"You must supply at least one file or directory to process".
+	-->
+	<file>.</file>
+
+	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/node_modules/*</exclude-pattern>
+	<!--
+		The PHPUnit bootstrap stubs WordPress core functions and classes by
+		their real, unprefixed names, which the plugin rules below forbid.
+	-->
+	<exclude-pattern>/tests/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="basepath" value="."/>
+	<arg name="parallel" value="8"/>
+	<arg name="colors"/>
+	<!-- s: show sniff codes, p: show progress. -->
+	<arg value="sp"/>
+
+	<!-- Matches "Requires at least" in plugin.php. -->
+	<config name="minimum_wp_version" value="6.5"/>
+
+	<rule ref="WordPress"/>
+
+	<!--
+		Everything lives in the global namespace, prefixed jc_ / JC_. WPCS wants
+		prefixes of 3+ characters; renaming every function and the public
+		jc_csp_* filters would break existing hooks for no gain, so only the
+		length check is switched off. Unprefixed globals are still errors.
+	-->
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<exclude name="WordPress.NamingConventions.PrefixAllGlobals.ShortPrefixPassed"/>
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="jc"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="jc-core-functionality"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>
