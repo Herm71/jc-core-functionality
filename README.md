@@ -8,7 +8,7 @@ Custom functionality for the [Jason Chafin](https://jasonchafin.com) WordPress s
 
 ## Requirements
 
--   [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/pro/), declared with `Requires Plugins`. WordPress won't activate this plugin without it.
+- [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/pro/), declared with `Requires Plugins`. WordPress won't activate this plugin without it.
 
 ## Installation
 
@@ -26,19 +26,19 @@ Once it's installed, updates come from this repository's GitHub releases through
 
 Defined as ACF JSON in `acf-json/`, which the plugin registers as ACF's load and save path:
 
--   **People** (`person`), with a Contact Info field group: name, title, phone, email, website, address, bio and photo.
--   **Quotes** (`quote`).
--   **Posts** get a `subtitle` field. It's also registered as post meta and exposed in the REST API.
+- **People** (`person`), with a Contact Info field group: name, title, phone, email, website, address, bio and photo.
+- **Quotes** (`quote`).
+- **Posts** get a `subtitle` field. It's also registered as post meta and exposed in the REST API.
 
 ### Shortcode
 
--   `[quotes]` shows one random quote title from the Quotes post type.
+- `[quotes]` shows one random quote title from the Quotes post type.
 
 ### Block bindings
 
 | Source         | Arguments                                           | Value                                       |
 | -------------- | --------------------------------------------------- | ------------------------------------------- |
-| `jc/copyright` | none                                                | `© <current year>` in the site's timezone  |
+| `jc/copyright` | none                                                | `© <current year>` in the site's timezone   |
 | `jc/user-data` | `key` (`name`, `description` or `avatar`), `userId` | The user's display name, bio, or avatar URL |
 
 Example:
@@ -51,7 +51,7 @@ Example:
 
 ### Site-wide
 
--   **Google Tag Manager:** container snippets in `<head>` and right after `<body>`. They're not printed for administrators (`manage_options`), so your own visits stay out of analytics. The container defaults to the live site's. Change it or turn it off in `wp-config.php`:
+- **Google Tag Manager:** container snippets in `<head>` and right after `<body>`. They're not printed for administrators (`manage_options`), so your own visits stay out of analytics. The container defaults to the live site's. Change it or turn it off in `wp-config.php`:
 
     ```php
     define( 'JC_GTM_ID', 'GTM-XXXXXXX' ); // a different container
@@ -60,8 +60,8 @@ Example:
 
     The `jc_gtm_container_id` filter does the same. Anything that isn't a valid `GTM-…` ID turns GTM off.
 
--   **Security headers** on front-end responses: `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy` and a Content Security Policy (see below).
--   **XML-RPC disabled:** all methods are removed and the RSD link is taken out of `<head>`, to block brute-force login attempts through `/xmlrpc.php`.
+- **Security headers** on front-end responses: `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy` and a Content Security Policy (see below).
+- **XML-RPC disabled:** all methods are removed and the RSD link is taken out of `<head>`, to block brute-force login attempts through `/xmlrpc.php`.
 
 ## Content Security Policy
 
@@ -103,6 +103,7 @@ Deleting the plugin removes only the update checker's stored data. **People and 
 ## Development
 
 ```sh
+nvm use                           # Node 24, from .nvmrc
 composer install && npm install   # npm install also sets up the pre-commit hook
 
 npm test               # node:test (tests/*.test.js), then PHPUnit (tests/php/)

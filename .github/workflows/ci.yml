@@ -23,7 +23,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             # The oldest PHP the plugin supports (Requires PHP in plugin.php,
             # and the live server).
@@ -33,7 +33,7 @@ jobs:
                   coverage: none
 
             - name: Cache Composer packages
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: ~/.cache/composer/files
                   key: composer-${{ hashFiles('composer.lock') }}
@@ -63,7 +63,7 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
             # PHPUnit 12's minimum.
             - uses: shivammathur/setup-php@v2
@@ -71,13 +71,13 @@ jobs:
                   php-version: '8.3'
                   coverage: none
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v7
               with:
-                  node-version: 20
+                  node-version-file: .nvmrc
                   cache: 'npm'
 
             - name: Cache Composer packages
-              uses: actions/cache@v4
+              uses: actions/cache@v6
               with:
                   path: ~/.cache/composer/files
                   key: composer-${{ hashFiles('composer.lock') }}
@@ -97,11 +97,11 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v7
 
-            - uses: actions/setup-node@v4
+            - uses: actions/setup-node@v7
               with:
-                  node-version: 20
+                  node-version-file: .nvmrc
                   cache: 'npm'
 
             - name: Install Node dependencies
