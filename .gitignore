@@ -172,3 +172,7 @@ git
 node_modules
 vendor
 *.zip
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/

@@ -11,11 +11,13 @@
 	],
 	"require-dev": {
 		"wp-coding-standards/wpcs": "^3.0",
-		"dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+		"phpunit/phpunit": "^12"
 	},
 	"scripts": {
 		"lint": "./vendor/bin/phpcs",
-		"lint-fix": "./vendor/bin/phpcbf --extensions=php ."
+		"lint-fix": "./vendor/bin/phpcbf --extensions=php .",
+		"test": "phpunit"
 	},
 	"config": {
 		"allow-plugins": {

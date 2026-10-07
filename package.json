@@ -14,7 +14,8 @@
 		"release": "commit-and-tag-version",
 		"test": "lint-staged",
 		"zip": "wp-scripts plugin-zip",
-		"test:unit": "node --test \"tests/**/*.test.js\""
+		"test:unit": "node --test \"tests/**/*.test.js\"",
+		"test:php": "composer test"
 	},
 	"repository": {
 		"type": "git",
