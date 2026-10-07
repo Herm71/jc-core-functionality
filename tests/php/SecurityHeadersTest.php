@@ -109,6 +109,8 @@ final class SecurityHeadersTest extends TestCase {
 		$this->assertContains( 'https://s.w.org', $policy['img-src'] );
 		$this->assertContains( 'https://*.google-analytics.com', $policy['connect-src'] );
 		$this->assertContains( 'https://*.analytics.google.com', $policy['connect-src'] );
+		// Regression: *.analytics.google.com does not match the bare host GA4 posts to.
+		$this->assertContains( 'https://analytics.google.com', $policy['connect-src'] );
 		$this->assertSame( array( "'none'" ), $policy['object-src'] );
 	}
 
