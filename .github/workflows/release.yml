@@ -14,17 +14,14 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v3
-            - uses: actions/setup-node@v3.3.0
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
               with:
-                  node-version: 14
+                  node-version: 20
                   cache: 'npm'
 
             - name: Install Node dependencies
-              run: npm install
-
-            - name: Build theme
-              run: npm run build
+              run: npm ci
 
             # Ships the plugin-update-checker runtime into vendor/ so it is
             # present in the packaged zip. Without this the updater silently
@@ -36,7 +33,7 @@ jobs:
               run: ./node_modules/.bin/wp-scripts plugin-zip
 
             - name: Release
-              uses: softprops/action-gh-release@v1
+              uses: softprops/action-gh-release@v2
               with:
                   files: jc-core-functionality.zip
                   generate_release_notes: true

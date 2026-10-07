@@ -2,24 +2,18 @@
 	"name": "jc-core-functionality",
 	"version": "1.0.1",
 	"description": "Core functionality plugin for JC WordPress",
-	"main": "build/index.js",
 	"directories": {
 		"lib": "lib"
 	},
 	"scripts": {
-		"build": "wp-scripts build",
 		"format": "wp-scripts format",
-		"format:src": "wp-scripts format ./src",
 		"lint:style": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"packages-update": "wp-scripts packages-update",
-		"postpackages-update": "npm run build",
 		"release": "commit-and-tag-version",
-		"start": "wp-scripts start",
-		"start:hot": "wp-scripts start --hot",
 		"test": "lint-staged",
-		"zip": "wp-scripts build && wp-scripts plugin-zip",
+		"zip": "wp-scripts plugin-zip",
 		"test:unit": "node --test \"tests/**/*.test.js\""
 	},
 	"repository": {
@@ -38,7 +32,7 @@
 	"homepage": "https://github.com/Herm71/jc-core-functionality#readme",
 	"devDependencies": {
 		"@wordpress/prettier-config": "^3.5.0",
-		"@wordpress/scripts": "^26.19.0",
+		"@wordpress/scripts": "^34.2.0",
 		"commit-and-tag-version": "^13.2.1",
 		"lint-staged": "^15.2.0",
 		"prettier": "^3.1.1"
