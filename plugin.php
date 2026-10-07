@@ -110,6 +110,11 @@ if ( file_exists( JC_DIR . '/lib/functions/security-headers.php' ) ) {
 	include_once JC_DIR . '/lib/functions/security-headers.php';
 }
 
+// CSP violation reports. Depends on security-headers.php.
+if ( file_exists( JC_DIR . '/lib/functions/csp-report.php' ) ) {
+	include_once JC_DIR . '/lib/functions/csp-report.php';
+}
+
 // General.
 if ( file_exists( JC_DIR . '/lib/functions/general.php' ) ) {
 	include_once JC_DIR . '/lib/functions/general.php';
