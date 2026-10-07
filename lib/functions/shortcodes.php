@@ -17,10 +17,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_shortcode( 'quotes', 'jc_quotes_loop' );
+/**
+ * Render [quotes]: the title of one random Quote.
+ *
+ * @return string
+ */
 function jc_quotes_loop() {
 	$finalloop = '';
-	// Call Post
+	// One random quote.
 	$args  = array(
 		'post_type'      => 'quote',
 		'orderby'        => 'rand',
@@ -31,11 +35,12 @@ function jc_quotes_loop() {
 	if ( $quote->have_posts() ) :
 		while ( $quote->have_posts() ) :
 			$quote->the_post();
-			$quoteTitle = get_the_title();
-			$finalloop .= '<p>' . esc_html( $quoteTitle ) . '</p>';
+			$quote_title = get_the_title();
+			$finalloop  .= '<p>' . esc_html( $quote_title ) . '</p>';
 		endwhile;
 	endif;
 	// the_post() replaced the global $post; restore it before returning.
 	wp_reset_postdata();
 	return $finalloop;
 }
+add_shortcode( 'quotes', 'jc_quotes_loop' );

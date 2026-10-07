@@ -78,4 +78,20 @@ final class SettingsPageTest extends TestCase {
 		);
 		$this->assertSame( 0, $pre->getElementsByTagName( 'p' )->length );
 	}
+
+	public function test_documents_the_user_data_binding(): void {
+		// #16: only jc/copyright was documented.
+		$doc  = $this->parse( $this->render() );
+		$pres = $doc->getElementsByTagName( 'pre' );
+
+		$this->assertSame( 2, $pres->length );
+		$this->assertStringContainsString( '"source":"jc/user-data","args":{"key":"name","userId":1}', $pres->item( 1 )->textContent );
+	}
+
+	public function test_shows_the_active_gtm_container(): void {
+		$this->assertStringContainsString( '<code>GTM-WNP9BDSD</code>', $this->render() );
+
+		add_filter( 'jc_gtm_container_id', '__return_empty_string' );
+		$this->assertStringContainsString( '<code>none (disabled)</code>', $this->render() );
+	}
 }

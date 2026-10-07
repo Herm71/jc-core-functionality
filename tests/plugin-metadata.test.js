@@ -18,7 +18,9 @@ const composer = JSON.parse( read( 'composer.json' ) );
 const lock = JSON.parse( read( 'package-lock.json' ) );
 
 const header = ( name ) => {
-	const match = plugin.match( new RegExp( `^ \\* ${ name }:\\s*(.+)$`, 'm' ) );
+	const match = plugin.match(
+		new RegExp( `^ \\* ${ name }:\\s*(.+)$`, 'm' )
+	);
 	return match && match[ 1 ].trim();
 };
 
@@ -40,7 +42,10 @@ test( 'License URI points at the GPL-2.0 text', () => {
 test( 'LICENSE exists, is GPL-2.0, and ships in the zip', () => {
 	assert.ok( pkg.files.includes( 'LICENSE' ) );
 	const license = read( 'LICENSE' );
-	assert.match( license, /GNU GENERAL PUBLIC LICENSE\s+Version 2, June 1991/ );
+	assert.match(
+		license,
+		/GNU GENERAL PUBLIC LICENSE\s+Version 2, June 1991/
+	);
 } );
 
 test( 'every feature file is loaded exactly once, behind file_exists()', () => {

@@ -8,7 +8,7 @@ Custom functionality for the [Jason Chafin](https://jasonchafin.com) WordPress s
 
 ## Requirements
 
-- [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/pro/), declared with `Requires Plugins`. WordPress won't activate this plugin without it.
+-   [Advanced Custom Fields Pro](https://www.advancedcustomfields.com/pro/), declared with `Requires Plugins`. WordPress won't activate this plugin without it.
 
 ## Installation
 
@@ -26,19 +26,19 @@ Once it's installed, updates come from this repository's GitHub releases through
 
 Defined as ACF JSON in `acf-json/`, which the plugin registers as ACF's load and save path:
 
-- **People** (`person`), with a Contact Info field group: name, title, phone, email, website, address, bio and photo.
-- **Quotes** (`quote`).
-- **Posts** get a `subtitle` field. It's also registered as post meta and exposed in the REST API.
+-   **People** (`person`), with a Contact Info field group: name, title, phone, email, website, address, bio and photo.
+-   **Quotes** (`quote`).
+-   **Posts** get a `subtitle` field. It's also registered as post meta and exposed in the REST API.
 
 ### Shortcode
 
-- `[quotes]` shows one random quote title from the Quotes post type.
+-   `[quotes]` shows one random quote title from the Quotes post type.
 
 ### Block bindings
 
-| Source | Arguments | Value |
-| --- | --- | --- |
-| `jc/copyright` | none | `© <current year>` in the site's timezone |
+| Source         | Arguments                                           | Value                                       |
+| -------------- | --------------------------------------------------- | ------------------------------------------- |
+| `jc/copyright` | none                                                | `© <current year>` in the site's timezone  |
 | `jc/user-data` | `key` (`name`, `description` or `avatar`), `userId` | The user's display name, bio, or avatar URL |
 
 Example:
@@ -51,15 +51,23 @@ Example:
 
 ### Site-wide
 
-- **Google Tag Manager:** container snippets in `<head>` and right after `<body>`.
-- **Security headers** on front-end responses: `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy` and a Content Security Policy (see below).
-- **XML-RPC disabled:** all methods are removed and the RSD link is taken out of `<head>`, to block brute-force login attempts through `/xmlrpc.php`.
+-   **Google Tag Manager:** container snippets in `<head>` and right after `<body>`. They're not printed for administrators (`manage_options`), so your own visits stay out of analytics. The container defaults to the live site's. Change it or turn it off in `wp-config.php`:
+
+    ```php
+    define( 'JC_GTM_ID', 'GTM-XXXXXXX' ); // a different container
+    define( 'JC_GTM_ID', '' );            // no GTM, e.g. on staging
+    ```
+
+    The `jc_gtm_container_id` filter does the same. Anything that isn't a valid `GTM-…` ID turns GTM off.
+
+-   **Security headers** on front-end responses: `Referrer-Policy`, `X-Content-Type-Options`, `X-Frame-Options`, `Permissions-Policy` and a Content Security Policy (see below).
+-   **XML-RPC disabled:** all methods are removed and the RSD link is taken out of `<head>`, to block brute-force login attempts through `/xmlrpc.php`.
 
 ## Content Security Policy
 
 Scripts are trusted by a nonce that changes on every request, not by a host list. WordPress adds the nonce to every script printed through its script API (enqueued scripts, inline scripts, the import map and speculation rules). `'strict-dynamic'` extends that trust to the scripts they load, such as GTM and GA4. Styles still allow `'unsafe-inline'`, because block styles are printed inline.
 
-**The policy currently ships as `Content-Security-Policy-Report-Only`.** Browsers report what it *would* block without blocking it. In the meantime a minimal policy is enforced (`object-src 'none'; base-uri 'self'; frame-ancestors 'self'`).
+**The policy currently ships as `Content-Security-Policy-Report-Only`.** Browsers report what it _would_ block without blocking it. In the meantime a minimal policy is enforced (`object-src 'none'; base-uri 'self'; frame-ancestors 'self'`).
 
 Reports are sent to `/wp-json/jc/v1/csp-report` and written to the PHP error log, one JSON line each, prefixed `[jc-csp]`:
 
@@ -95,14 +103,16 @@ Deleting the plugin removes only the update checker's stored data. **People and 
 ## Development
 
 ```sh
-composer install && npm install
+composer install && npm install   # npm install also sets up the pre-commit hook
 
-composer test          # PHPUnit (tests/php/)
-npm run test:unit      # node:test (tests/*.test.js)
+npm test               # node:test (tests/*.test.js), then PHPUnit (tests/php/)
+composer lint          # PHPCS, WordPress Coding Standards (phpcs.xml.dist)
+composer lint-fix      # auto-fix what PHPCS can
+npm run format         # wp-scripts format for JS, JSON, YAML and Markdown
 npm run release        # bump version, update CHANGELOG.md, tag
 ```
 
-Pushing a `vX.Y.Z` tag builds the release zip and publishes it as a GitHub release. See [ROADMAP.md](ROADMAP.md) for planned work.
+A pre-commit hook (husky + lint-staged) runs PHPCS on staged PHP and `wp-scripts format` on staged JS, JSON, YAML and Markdown. CI runs on every pull request: PHP 8.0 syntax and coding standards, the test suites on PHP 8.3 (PHPUnit 12's minimum), and a formatting check. Pushing a `vX.Y.Z` tag builds the release zip and publishes it as a GitHub release. See [ROADMAP.md](ROADMAP.md) for planned work.
 
 ## License
 

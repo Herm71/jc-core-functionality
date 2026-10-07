@@ -1,0 +1,120 @@
+name: CI
+
+# Runs on every pull request, and on main after merge. Deliberately not tied to
+# tags: release.yml only fires on a v*.*.* tag, which is far too late to learn
+# that the coding standards or tests were broken.
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+
+# A new push to a branch makes the in-flight run for that branch pointless.
+concurrency:
+    group: ci-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    contents: read
+
+jobs:
+    php-lint:
+        name: PHP syntax (8.0) and coding standards
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            # The oldest PHP the plugin supports (Requires PHP in plugin.php,
+            # and the live server).
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  coverage: none
+
+            - name: Cache Composer packages
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/composer/files
+                  key: composer-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-
+
+            # PHPUnit 12 requires PHP 8.3, so the platform check is relaxed
+            # here; PHPUnit is installed but only ever run in the tests job.
+            # phpcs and WPCS support PHP 8.0.
+            - name: Install PHP dependencies
+              run: composer install --no-interaction --prefer-dist --ignore-platform-req=php
+
+            - name: Validate composer.json
+              run: composer validate --no-check-publish
+
+            # Catches syntax PHP 8.0 cannot parse, which PHPCS does not.
+            - name: Check PHP 8.0 syntax
+              run: |
+                  for file in plugin.php uninstall.php lib/functions/*.php; do
+                      php -l "$file" || exit 1
+                  done
+
+            - name: Check coding standards
+              run: composer lint
+
+    tests:
+        name: PHPUnit and node:test
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            # PHPUnit 12's minimum.
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.3'
+                  coverage: none
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'npm'
+
+            - name: Cache Composer packages
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/composer/files
+                  key: composer-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-
+
+            - name: Install PHP dependencies
+              run: composer install --no-interaction --prefer-dist
+
+            - name: Install Node dependencies
+              run: npm ci
+
+            - name: Run tests
+              run: npm test
+
+    js:
+        name: package.json and formatting
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: 'npm'
+
+            - name: Install Node dependencies
+              run: npm ci
+
+            - name: Lint package.json
+              run: npm run lint:pkg-json
+
+            # wp-scripts format rewrites files in place and offers no --check
+            # mode, so run it and fail if the tree moved. It is the same
+            # command lint-staged runs on commit, so the hook and CI cannot
+            # disagree about what "formatted" means.
+            - name: Check formatting
+              run: |
+                  npm run format
+                  git diff --exit-code

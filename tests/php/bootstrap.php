@@ -57,6 +57,9 @@ final class WP_Stubs {
 	/** @var array<int, array{0: string, 1: string, 2: array}> register_rest_route() calls. */
 	public static array $rest_routes = array();
 
+	/** @var string[] Capabilities the current user has. */
+	public static array $caps = array();
+
 	public static function reset(): void {
 		self::$plugin_data          = array();
 		self::$plugin_data_calls    = array();
@@ -67,6 +70,7 @@ final class WP_Stubs {
 		self::$transients           = array();
 		self::$is_admin             = false;
 		self::$is_customize_preview = false;
+		self::$caps                 = array();
 		WP_Query::$posts            = array();
 		WP_Query::$last_args        = array();
 		$GLOBALS['post']            = null;
@@ -133,6 +137,10 @@ function __return_false(): bool {
 	return false;
 }
 
+function __return_empty_string(): string {
+	return '';
+}
+
 function is_admin(): bool {
 	return WP_Stubs::$is_admin;
 }
@@ -163,6 +171,27 @@ function register_rest_route( string $namespace, string $route, array $args ): b
 
 function wp_json_encode( $data ) {
 	return json_encode( $data );
+}
+
+function current_user_can( string $capability ): bool {
+	return in_array( $capability, WP_Stubs::$caps, true );
+}
+
+function add_query_arg( string $key, string $value, string $url ): string {
+	return $url . ( str_contains( $url, '?' ) ? '&' : '?' ) . rawurlencode( $key ) . '=' . rawurlencode( $value );
+}
+
+/**
+ * Like core: attributes pass through wp_inline_script_attributes (where the
+ * CSP nonce is added), then the tag is printed.
+ */
+function wp_print_inline_script_tag( string $data, array $attributes = array() ): void {
+	$attributes = apply_filters( 'wp_inline_script_attributes', $attributes, $data );
+	$attr       = '';
+	foreach ( $attributes as $name => $value ) {
+		$attr .= ' ' . $name . '="' . htmlspecialchars( (string) $value, ENT_QUOTES ) . '"';
+	}
+	echo "<script{$attr}>{$data}</script>\n";
 }
 
 /**
@@ -255,6 +284,7 @@ require_once JC_DIR . '/lib/functions/shortcodes.php';
 require_once JC_DIR . '/lib/functions/settings.php';
 require_once JC_DIR . '/lib/functions/security-headers.php';
 require_once JC_DIR . '/lib/functions/csp-report.php';
+require_once JC_DIR . '/lib/functions/gtm.php';
 
 // Fire rest_api_init once so the route registration is recorded.
 foreach ( WP_Stubs::$filters['rest_api_init'] ?? array() as $callback ) {
