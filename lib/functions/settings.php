@@ -26,7 +26,6 @@ add_action( 'admin_menu', 'jc_add_settings_page' );
 
 /**
  * HTML output of Settings page
- *
  */
 if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
 	function jc_render_plugin_settings_page() {
@@ -57,6 +56,7 @@ if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
 				</ul>
 			</li>
 		</ul>
-		</div><?php
+		</div>
+		<?php
 	}
 }

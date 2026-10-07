@@ -20,12 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_filter(
-    'xmlrpc_methods',
-    function () {
-        return array();
-    },
-    PHP_INT_MAX
+	'xmlrpc_methods',
+	function () {
+		return array();
+	},
+	PHP_INT_MAX
 );
 
 // Remove link from <head>.
-remove_action('wp_head', 'rsd_link');
+remove_action( 'wp_head', 'rsd_link' );

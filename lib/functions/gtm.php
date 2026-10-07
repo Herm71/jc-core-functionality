@@ -17,12 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action('wp_head', 'jc_google_tag_manager_head', -1 );
-add_action('wp_body_open', 'jc_google_tag_manager_body', -1 );
+add_action( 'wp_head', 'jc_google_tag_manager_head', -1 );
+add_action( 'wp_body_open', 'jc_google_tag_manager_body', -1 );
 
-function jc_google_tag_manager_head()
-{
-    ?>
+function jc_google_tag_manager_head() {
+	?>
 	<!-- Google Tag Manager -->
 	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -30,17 +29,15 @@ function jc_google_tag_manager_head()
 	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 	})(window,document,'script','dataLayer','GTM-WNP9BDSD');</script>
 	<!-- End Google Tag Manager -->
-    <?php
-
+	<?php
 }
 
-function jc_google_tag_manager_body()
-{
-    ?>
+function jc_google_tag_manager_body() {
+	?>
 	<!-- Google Tag Manager (noscript) -->
 	<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WNP9BDSD"
 	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	<!-- End Google Tag Manager (noscript) -->
-    <?php
+	<?php
 }
 

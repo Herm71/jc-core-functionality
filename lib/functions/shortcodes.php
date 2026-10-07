@@ -17,19 +17,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_shortcode( 'quotes','jc_quotes_loop' );
+add_shortcode( 'quotes', 'jc_quotes_loop' );
 function jc_quotes_loop() {
 	$finalloop = '';
 	// Call Post
-	$args = array (
-	'post_type' => 'quote',
-	'orderby' => 'rand',
-	'posts_per_page' => 1,
-	'no_found_rows' => true,
+	$args  = array(
+		'post_type'      => 'quote',
+		'orderby'        => 'rand',
+		'posts_per_page' => 1,
+		'no_found_rows'  => true,
 	);
 	$quote = new \WP_Query( $args );
-	if ($quote->have_posts()) :
-		while ($quote->have_posts()) :
+	if ( $quote->have_posts() ) :
+		while ( $quote->have_posts() ) :
 			$quote->the_post();
 			$quoteTitle = get_the_title();
 			$finalloop .= '<p>' . esc_html( $quoteTitle ) . '</p>';

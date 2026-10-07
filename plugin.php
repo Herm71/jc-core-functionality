@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin Directory
-define('JC_DIR', dirname(__FILE__));
+define( 'JC_DIR', __DIR__ );
 
 /**
  * Plugin updates via GitHub releases.
@@ -62,14 +62,16 @@ if ( ( is_admin() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) )
 /**
  * Add link to Settings page from Plugins
  */
-add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), 'jc_custom_functionality_plugin_action_links' );
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'jc_custom_functionality_plugin_action_links' );
 function jc_custom_functionality_plugin_action_links( $links ) {
 	// Build and escape the URL.
-	$url = esc_url( add_query_arg(
-		'page',
-		'jc-custom-functionality-settings',
-		get_admin_url() . 'options-general.php'
-	) );
+	$url = esc_url(
+		add_query_arg(
+			'page',
+			'jc-custom-functionality-settings',
+			get_admin_url() . 'options-general.php'
+		)
+	);
 	// Create the link.
 	$settings_link = "<a href='$url'>" . esc_html__( 'Settings', 'jc-core-functionality' ) . '</a>';
 	// Adds the link to the end of the array.
@@ -84,31 +86,31 @@ function jc_custom_functionality_plugin_action_links( $links ) {
 // Include Customization files.
 
 // Plugin Settings.
-if (file_exists(JC_DIR . '/lib/functions/settings.php') ) {
-    include_once JC_DIR . '/lib/functions/settings.php';
+if ( file_exists( JC_DIR . '/lib/functions/settings.php' ) ) {
+	include_once JC_DIR . '/lib/functions/settings.php';
 }
 
 // Google Tag Manager.
-if (file_exists(JC_DIR . '/lib/functions/gtm.php') ) {
-    include_once JC_DIR . '/lib/functions/gtm.php';
+if ( file_exists( JC_DIR . '/lib/functions/gtm.php' ) ) {
+	include_once JC_DIR . '/lib/functions/gtm.php';
 }
 
 // Shortcodes.
 if ( file_exists( JC_DIR . '/lib/functions/shortcodes.php' ) ) {
-    include_once JC_DIR . '/lib/functions/shortcodes.php';
+	include_once JC_DIR . '/lib/functions/shortcodes.php';
 }
 
 // Disable XMLRP.
-if (file_exists(JC_DIR . '/lib/functions/disable-xmlrpc.php') ) {
-    include_once JC_DIR . '/lib/functions/disable-xmlrpc.php';
+if ( file_exists( JC_DIR . '/lib/functions/disable-xmlrpc.php' ) ) {
+	include_once JC_DIR . '/lib/functions/disable-xmlrpc.php';
 }
 
 // Security Headers.
-if (file_exists(JC_DIR . '/lib/functions/security-headers.php') ) {
-    include_once JC_DIR . '/lib/functions/security-headers.php';
+if ( file_exists( JC_DIR . '/lib/functions/security-headers.php' ) ) {
+	include_once JC_DIR . '/lib/functions/security-headers.php';
 }
 
 // General.
-if (file_exists(JC_DIR . '/lib/functions/general.php') ) {
-    include_once JC_DIR . '/lib/functions/general.php';
+if ( file_exists( JC_DIR . '/lib/functions/general.php' ) ) {
+	include_once JC_DIR . '/lib/functions/general.php';
 }

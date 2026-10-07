@@ -20,24 +20,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Add new load point for JSON
  */
-
 function jc_add_json_load_point( $paths ) {
-    // Remove the original path (optional).
-    unset($paths[0]);
+	// Remove the original path (optional).
+	unset( $paths[0] );
 
-    // Append the new path and return it.
-    $paths[] = JC_DIR . '/acf-json';
+	// Append the new path and return it.
+	$paths[] = JC_DIR . '/acf-json';
 
-    return $paths;
+	return $paths;
 }
 add_filter( 'acf/settings/load_json', 'jc_add_json_load_point' );
 
 /**
  * Add new save point for JSON
  */
-
 function jc_add_json_save_point( $path ) {
-    return JC_DIR . '/acf-json';
+	return JC_DIR . '/acf-json';
 }
 add_filter( 'acf/settings/save_json', 'jc_add_json_save_point' );
 
@@ -46,7 +44,7 @@ add_filter( 'acf/settings/save_json', 'jc_add_json_save_point' );
 add_action( 'init', 'jc_acf_register_meta' );
 
 function jc_acf_register_meta() {
-	$terms = array('subtitle');
+	$terms = array( 'subtitle' );
 
 	foreach ( $terms as $term ) {
 		register_meta(
@@ -56,11 +54,10 @@ function jc_acf_register_meta() {
 				'show_in_rest'      => true,
 				'single'            => true,
 				'type'              => 'string',
-				'sanitize_callback' => 'wp_strip_all_tags'
+				'sanitize_callback' => 'wp_strip_all_tags',
 			)
 		);
 	}
-
 }
 
 
@@ -70,14 +67,20 @@ function jc_acf_register_meta() {
 add_action( 'init', 'jc_register_block_bindings' );
 
 function jc_register_block_bindings() {
-	register_block_bindings_source( 'jc/copyright', array(
-		'label'              => __( 'Copyright', 'jc-core-functionality' ),
-		'get_value_callback' => 'jc_copyright_binding'
-	) );
-	register_block_bindings_source( 'jc/user-data', array(
-		'label'              => __( 'User Data', 'jc-core-functionality' ),
-		'get_value_callback' => 'jc_user_data_bindings'
-	) );
+	register_block_bindings_source(
+		'jc/copyright',
+		array(
+			'label'              => __( 'Copyright', 'jc-core-functionality' ),
+			'get_value_callback' => 'jc_copyright_binding',
+		)
+	);
+	register_block_bindings_source(
+		'jc/user-data',
+		array(
+			'label'              => __( 'User Data', 'jc-core-functionality' ),
+			'get_value_callback' => 'jc_user_data_bindings',
+		)
+	);
 }
 
 // Copyright callback
