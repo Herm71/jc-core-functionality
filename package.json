@@ -15,7 +15,7 @@
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"packages-update": "wp-scripts packages-update",
 		"postpackages-update": "npm run build",
-		"release": "standard-version",
+		"release": "commit-and-tag-version",
 		"start": "wp-scripts start",
 		"start:hot": "wp-scripts start --hot",
 		"test": "lint-staged",
@@ -38,9 +38,9 @@
 	"devDependencies": {
 		"@wordpress/prettier-config": "^3.5.0",
 		"@wordpress/scripts": "^26.19.0",
+		"commit-and-tag-version": "^13.2.1",
 		"lint-staged": "^15.2.0",
-		"prettier": "^3.1.1",
-		"standard-version": "^9.5.0"
+		"prettier": "^3.1.1"
 	},
 	"files": [
 		"!node_modules",
@@ -52,7 +52,7 @@
 		"CHANGELOG.md",
 		"LICENSE"
 	],
-	"standard-version": {
+	"commit-and-tag-version": {
 		"bumpFiles": [
 			{
 				"filename": "package-lock.json",
@@ -64,7 +64,7 @@
 			},
 			{
 				"filename": "plugin.php",
-				"updater": "standard-version-updater.js"
+				"updater": "wp-plugin-version-updater.js"
 			}
 		]
 	}
