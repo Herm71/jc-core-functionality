@@ -19,7 +19,8 @@
 		"start": "wp-scripts start",
 		"start:hot": "wp-scripts start --hot",
 		"test": "lint-staged",
-		"zip": "wp-scripts build && wp-scripts plugin-zip"
+		"zip": "wp-scripts build && wp-scripts plugin-zip",
+		"test:unit": "node --test \"tests/**/*.test.js\""
 	},
 	"repository": {
 		"type": "git",
