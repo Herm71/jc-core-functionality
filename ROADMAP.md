@@ -10,6 +10,13 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 When you close an issue, tick its box here too.
 
+### Done on the `v1.1.0-cleanup` branch
+
+- Hardening: `ABSPATH` guards in every feature file (#10), and the `jc/user-data` bio sanitized with `wp_kses_post()` (#11).
+- Cleanup (#12): deleted `updater.php`; one text domain (`jc-core-functionality`); `wp_date()` for the copyright year; consistent docblocks; WordPress Coding Standards formatting.
+- Leftovers (#13): fixed the `composer.json` and `package.json` metadata, and rewrote the README.
+- Tests: PHPUnit for the block bindings, and `node:test` rules for guards, text domain, `date()` and leftovers.
+
 ### Done on the `21-rc-prerelease` branch
 
 - RC tags now publish as GitHub prereleases, so the updater never offers them to installed sites (#21).
@@ -53,20 +60,20 @@ When you close an issue, tick its box here too.
 ## 3. Security and hardening — v1.1.0
 
 - [ ] **Tighten the Content Security Policy** (`lib/functions/security-headers.php`) ([#9](https://github.com/Herm71/jc-core-functionality/issues/9)). The current policy allows `http://*`, `'unsafe-inline'` and `'unsafe-eval'`, and still lists UCSC/RCID domains. First make a list of the outside domains the site actually uses, then rebuild the policy. Ship it as `Report-Only` first. Also drop the deprecated `X-XSS-Protection` header and review `Referrer-Policy`.
-- [ ] **Add `defined( 'ABSPATH' ) || exit;`** at the top of every PHP file ([#10](https://github.com/Herm71/jc-core-functionality/issues/10)).
-- [ ] **Escape the `description` block-binding value** (`lib/functions/general.php`, `jc_user_data_bindings`) with `wp_kses_post()` ([#11](https://github.com/Herm71/jc-core-functionality/issues/11)).
+- [x] **Add an `ABSPATH` guard** at the top of every PHP file ([#10](https://github.com/Herm71/jc-core-functionality/issues/10)).
+- [x] **Escape the `description` block-binding value** (`lib/functions/general.php`, `jc_user_data_bindings`) with `wp_kses_post()` ([#11](https://github.com/Herm71/jc-core-functionality/issues/11)).
 
 ## 4. Cleanup — v1.1.0
 
 All of these are tracked in [#12](https://github.com/Herm71/jc-core-functionality/issues/12) unless noted.
 
-- [ ] Delete the empty `lib/functions/updater.php`, or implement it.
-- [ ] Use one text domain everywhere (`jc-core-functionality`), and add `Text Domain:` to the plugin header.
-- [ ] Replace `date( 'Y' )` with `wp_date( 'Y' )` in the copyright binding.
-- [ ] Use the same docblock headers in every file.
-- [ ] Reformat the older files to match `.editorconfig` (tabs) and the WordPress brace style.
-- [ ] Remove the UCSC/RCID leftovers in `composer.json`, `settings.php` and `gtm.php` ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
-- [ ] Remove the stray "readme edit." line from `README.md`, and list the shortcodes, block bindings and ACF post types in it ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
+- [x] Delete the empty `lib/functions/updater.php`.
+- [x] Use one text domain everywhere (`jc-core-functionality`), and add `Text Domain:` to the plugin header.
+- [x] Replace `date( 'Y' )` with `wp_date( 'Y' )` in the copyright binding.
+- [x] Use the same docblock headers in every file. Existing `@copyright` lines were left as they were.
+- [x] Reformat the older files to match `.editorconfig` (tabs) and the WordPress brace style (`phpcbf`). PHPCS errors went from 118 to 23; the rest need judgment and are left for #14.
+- [x] Remove the UCSC/RCID leftovers in `composer.json`, `package.json`, `settings.php` and `gtm.php`. The CSP's UCSC hosts stay until #9 ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
+- [x] Rewrite `README.md`: remove the stray line, and document the shortcodes, block bindings, ACF post types, installing from the release zip, updates and the uninstall policy ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
 
 ## 5. Tooling — v1.2.0
 
