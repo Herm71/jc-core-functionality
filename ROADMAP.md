@@ -10,6 +10,14 @@ Planned fixes and improvements for the Jason Chafin Core Functionality plugin, f
 
 When you close an issue, tick its box here too.
 
+### Done on the `9-csp-rebuild` branch
+
+- Rebuilt the CSP (#9): per-request nonces with `'strict-dynamic'` and no `'unsafe-inline'`/`'unsafe-eval'` for scripts, only the hosts the site actually uses, and the `blob:` typo fixed. It ships as Report-Only, with violation reports logged through a new REST endpoint.
+- The GTM loader now goes through `wp_print_inline_script_tag()` so it gets the nonce.
+- `Referrer-Policy` is now `strict-origin-when-cross-origin`, `X-XSS-Protection` is gone, and `Permissions-Policy` now denies geolocation, microphone and camera.
+- **Content to fix in WordPress (not the plugin):** Roboto and one other font are registered with `http://localhost:8888` URLs, so they never load. Two images on *Build menus with the WordPress navigation block* load from `test-jchafin.wordpress.ucsc.edu`, which redirects.
+- **Next:** watch the `[jc-csp]` log for a week or two, then return false from `jc_csp_report_only` to enforce.
+
 ### Done on the `v1.1.0-cleanup` branch
 
 - Hardening: `ABSPATH` guards in every feature file (#10), and the `jc/user-data` bio sanitized with `wp_kses_post()` (#11).
@@ -59,7 +67,7 @@ When you close an issue, tick its box here too.
 
 ## 3. Security and hardening — v1.1.0
 
-- [ ] **Tighten the Content Security Policy** (`lib/functions/security-headers.php`) ([#9](https://github.com/Herm71/jc-core-functionality/issues/9)). The current policy allows `http://*`, `'unsafe-inline'` and `'unsafe-eval'`, and still lists UCSC/RCID domains. First make a list of the outside domains the site actually uses, then rebuild the policy. Ship it as `Report-Only` first. Also drop the deprecated `X-XSS-Protection` header and review `Referrer-Policy`.
+- [x] **Tighten the Content Security Policy** (`lib/functions/security-headers.php`) ([#9](https://github.com/Herm71/jc-core-functionality/issues/9)). Rebuilt from an inventory of all 48 sitemap pages plus runtime capture of what GTM loads. It now uses per-request nonces with `'strict-dynamic'`, ships as Report-Only with an enforced baseline, and sends reports to `/wp-json/jc/v1/csp-report`. Enforcing is a one-line filter once the logs are clean. Original notes: The current policy allows `http://*`, `'unsafe-inline'` and `'unsafe-eval'`, and still lists UCSC/RCID domains. First make a list of the outside domains the site actually uses, then rebuild the policy. Ship it as `Report-Only` first. Also drop the deprecated `X-XSS-Protection` header and review `Referrer-Policy`.
 - [x] **Add an `ABSPATH` guard** at the top of every PHP file ([#10](https://github.com/Herm71/jc-core-functionality/issues/10)).
 - [x] **Escape the `description` block-binding value** (`lib/functions/general.php`, `jc_user_data_bindings`) with `wp_kses_post()` ([#11](https://github.com/Herm71/jc-core-functionality/issues/11)).
 
@@ -72,7 +80,7 @@ All of these are tracked in [#12](https://github.com/Herm71/jc-core-functionalit
 - [x] Replace `date( 'Y' )` with `wp_date( 'Y' )` in the copyright binding.
 - [x] Use the same docblock headers in every file. Existing `@copyright` lines were left as they were.
 - [x] Reformat the older files to match `.editorconfig` (tabs) and the WordPress brace style (`phpcbf`). PHPCS errors went from 118 to 23; the rest need judgment and are left for #14.
-- [x] Remove the UCSC/RCID leftovers in `composer.json`, `package.json`, `settings.php` and `gtm.php`. The CSP's UCSC hosts stay until #9 ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
+- [x] Remove the UCSC/RCID leftovers in `composer.json`, `package.json`, `settings.php` and `gtm.php`. The CSP's UCSC hosts were removed in #9 ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
 - [x] Rewrite `README.md`: remove the stray line, and document the shortcodes, block bindings, ACF post types, installing from the release zip, updates and the uninstall policy ([#13](https://github.com/Herm71/jc-core-functionality/issues/13)).
 
 ## 5. Tooling — v1.2.0
