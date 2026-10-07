@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Plugin Directory
+// Plugin directory.
 define( 'JC_DIR', __DIR__ );
 
 /**
@@ -64,9 +64,11 @@ if ( ( is_admin() || wp_doing_cron() || ( defined( 'WP_CLI' ) && WP_CLI ) )
 }
 
 /**
- * Add link to Settings page from Plugins
+ * Add a Settings link to this plugin's row on the Plugins screen.
+ *
+ * @param string[] $links Existing action links.
+ * @return string[]
  */
-add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'jc_custom_functionality_plugin_action_links' );
 function jc_custom_functionality_plugin_action_links( $links ) {
 	// Build and escape the URL.
 	$url = esc_url(
@@ -85,6 +87,7 @@ function jc_custom_functionality_plugin_action_links( $links ) {
 	);
 	return $links;
 }
+add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'jc_custom_functionality_plugin_action_links' );
 
 
 // Include Customization files.

@@ -40,6 +40,9 @@ function jc_google_tag_manager_head() {
 	echo "<!-- End Google Tag Manager -->\n";
 }
 
+/**
+ * Print the GTM <noscript> fallback right after <body>.
+ */
 function jc_google_tag_manager_body() {
 	?>
 	<!-- Google Tag Manager (noscript) -->

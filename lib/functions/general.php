@@ -18,7 +18,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add new load point for JSON
+ * Load ACF JSON (field groups, post types) from the plugin.
+ *
+ * @param string[] $paths ACF JSON load paths.
+ * @return string[]
  */
 function jc_add_json_load_point( $paths ) {
 	// Remove the original path (optional).
@@ -32,17 +35,22 @@ function jc_add_json_load_point( $paths ) {
 add_filter( 'acf/settings/load_json', 'jc_add_json_load_point' );
 
 /**
- * Add new save point for JSON
+ * Save ACF JSON edits into the plugin, so they ship with it.
+ *
+ * WordPress passes the current save path; it is replaced, not used.
+ *
+ * @return string
  */
-function jc_add_json_save_point( $path ) {
+function jc_add_json_save_point() {
 	return JC_DIR . '/acf-json';
 }
 add_filter( 'acf/settings/save_json', 'jc_add_json_save_point' );
 
-// Register Meta Fields
-
-add_action( 'init', 'jc_acf_register_meta' );
-
+/**
+ * Register ACF-backed post meta so it is readable through the REST API.
+ *
+ * @return void
+ */
 function jc_acf_register_meta() {
 	$terms = array( 'subtitle' );
 
@@ -59,13 +67,13 @@ function jc_acf_register_meta() {
 		);
 	}
 }
+add_action( 'init', 'jc_acf_register_meta' );
 
-
-// Register Custom Block Binding Source
-
-// Copyright
-add_action( 'init', 'jc_register_block_bindings' );
-
+/**
+ * Register the plugin's block bindings sources.
+ *
+ * @return void
+ */
 function jc_register_block_bindings() {
 	register_block_bindings_source(
 		'jc/copyright',
@@ -82,13 +90,23 @@ function jc_register_block_bindings() {
 		)
 	);
 }
+add_action( 'init', 'jc_register_block_bindings' );
 
-// Copyright callback
+/**
+ * Value for the jc/copyright binding.
+ *
+ * @return string "© <year>" in the site's timezone.
+ */
 function jc_copyright_binding() {
 	return '&copy; ' . wp_date( 'Y' );
 }
 
-// User Data callback
+/**
+ * Value for the jc/user-data binding.
+ *
+ * @param array $source_args Binding args: `key` (name, description or avatar) and `userId`.
+ * @return string|null Null when the args are missing or invalid.
+ */
 function jc_user_data_bindings( $source_args ) {
 	// If no key or user ID argument is set, bail early.
 	if ( ! isset( $source_args['key'] ) || ! isset( $source_args['userId'] ) ) {

@@ -16,18 +16,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/** Register new menu and page */
 if ( ! function_exists( 'jc_add_settings_page' ) ) {
+	/**
+	 * Register the info page under Settings.
+	 *
+	 * @return void
+	 */
 	function jc_add_settings_page() {
 		add_options_page( 'Jason Chafin Custom Functionality plugin page', 'Jason Chafin Custom Functionality Info', 'manage_options', 'jc-custom-functionality-settings', 'jc_render_plugin_settings_page' );
 	}
 }
 add_action( 'admin_menu', 'jc_add_settings_page' );
 
-/**
- * HTML output of Settings page
- */
 if ( ! function_exists( 'jc_render_plugin_settings_page' ) ) {
+	/**
+	 * Render the info page.
+	 *
+	 * @return void
+	 */
 	function jc_render_plugin_settings_page() {
 		// Markup off: return plain header values, escaped below.
 		$plugin_data = get_plugin_data( JC_DIR . '/plugin.php', false, false );
