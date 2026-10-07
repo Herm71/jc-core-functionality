@@ -94,7 +94,10 @@ test( 'RC tags are published as prereleases, never as Latest', () => {
 	);
 	assert.ok( triggers.length > 0, 'no tag triggers found' );
 	for ( const pattern of triggers.filter( ( p ) => /rc/i.test( p ) ) ) {
-		assert.ok( isPrerelease( pattern ), `${ pattern } would publish as Latest` );
+		assert.ok(
+			isPrerelease( pattern ),
+			`${ pattern } would publish as Latest`
+		);
 	}
 } );
 
