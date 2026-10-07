@@ -12,21 +12,24 @@ A site-specific WordPress plugin for jasonchafin.com. It holds functionality tha
 
 Neither `vendor/` nor `node_modules/` is committed. Run `composer install` and `npm install` first.
 
-- PHP lint: `composer lint`, and auto-fix with `composer lint-fix`. There is no `phpcs.xml`, so pass the standard and paths yourself: `vendor/bin/phpcs --standard=WordPress plugin.php lib/`.
-- Release: `npm run release` (standard-version). It bumps the version in `package.json`, `package-lock.json` and the `Version:` header in `plugin.php`, using the regex in `standard-version-updater.js`, which only matches single-digit `X.Y.Z`. It also updates `CHANGELOG.md` from Conventional Commits and creates a `vX.Y.Z` tag. Pushing the tag triggers `.github/workflows/release.yml`, which runs `npm run build` and `wp-scripts plugin-zip`, then attaches `jc-core-functionality.zip` to a GitHub release.
-- There are no tests. `npm test` runs `lint-staged`, which has no config.
-- The `@wordpress/scripts` build/start/lint-js scripts exist, but there is no `src/` directory and no JS/CSS assets yet.
+- PHP lint: `composer lint`, and auto-fix with `composer lint-fix`. There is no `phpcs.xml`, so pass the standard and paths yourself: `vendor/bin/phpcs --standard=WordPress plugin.php uninstall.php lib/`.
+- Tests: `npm run test:unit` (Node's built-in `node:test`, files in `tests/`). Run one file with `node --test tests/<name>.test.js`. There are no PHP tests. `npm test` still runs `lint-staged`, which has no config.
+- Release zip: `npm run zip`. It packages only the `files` list in `package.json` into a `jc-core-functionality/` root folder. Run `composer install --no-dev` first, or dev dependencies end up in `vendor/` in the zip.
+- Release: `npm run release` (commit-and-tag-version). It bumps `package.json`, `package-lock.json` and the `Version:` header in `plugin.php` (via `wp-plugin-version-updater.js`), updates `CHANGELOG.md` from Conventional Commits, and tags `vX.Y.Z`. Pushing the tag triggers `.github/workflows/release.yml`, which runs `composer install --no-dev` and `plugin-zip`, then attaches `jc-core-functionality.zip` to a GitHub release.
 
 ## Architecture
 
-- `plugin.php` is the only bootstrap. It defines `JC_DIR`, adds a Settings link on the Plugins screen, and `include_once`s each file in `lib/functions/`. A new feature file needs its own include line added there. Nothing is namespaced or class-based: everything is global functions with a `jc_` prefix, hooked at file load.
+- `plugin.php` is the only bootstrap. It defines `JC_DIR`, registers the update checker (below), adds a Settings link on the Plugins screen, and `include_once`s each file in `lib/functions/`. A new feature file needs its own include line added there. Nothing is namespaced or class-based: everything is global functions with a `jc_` prefix, hooked at file load.
 - **Post types and custom fields live in `acf-json/`, not in PHP.** `general.php` redirects ACF's JSON load/save point to `JC_DIR . '/acf-json'` (and removes the theme's default load path). The `person` (People) and `quote` (Quotes) CPTs and their field groups are created by ACF from these JSON files. Edit them in the ACF admin UI so the JSON is rewritten, rather than by hand.
 - Code depends on these ACF-defined objects by name. The `[quotes]` shortcode (`shortcodes.php`) queries post type `quote`. `general.php` registers the `subtitle` post meta for REST, and that name matches the ACF "Posts" field group.
 - Block Bindings sources are registered in `general.php`: `jc/copyright` and `jc/user-data` (args `key` = `name|description|avatar` and `userId`). The settings page in `settings.php` is a static info page that documents features. Update it when you add user-facing features.
+- **Updates come from GitHub releases** through plugin-update-checker (PUC), a Composer runtime dependency loaded from `vendor/`. It runs only in admin, cron and WP-CLI, and installs only the `jc-core-functionality.zip` release asset. The slug `jc-core-functionality` must match in `plugin.php`, `uninstall.php` (PUC's option, transient and cron names), `package.json` `name` and the release workflow. `tests/update-checker-config.test.js` enforces this.
+- `uninstall.php` removes only PUC's data. By policy, `person` and `quote` content is never deleted.
 - `gtm.php` hard-codes GTM container `GTM-WNP9BDSD`. `security-headers.php` sets the CSP via the `wp_headers` filter on the front end only. Any new third-party script or embed domain has to be added to that CSP string.
 
 ## Gotchas
 
-- The release zip is built from the `files` list in `package.json`. That list does **not** include `acf-json/`, so released builds currently ship without the CPT and field definitions. It also lists a `LICENSE` file that doesn't exist.
+- The release zip is built from the `files` list in `package.json`. A new top-level directory won't ship unless it's added there. The list includes a `LICENSE` file that doesn't exist yet (#3).
+- If `vendor/` is missing from the zip, the updater does nothing and shows no error, because of the `file_exists()` guard.
 - The `.editorconfig` uses tabs, but older files mix in spaces and PEAR-style braces.
 - `lib/functions/updater.php` is empty and not included anywhere.
