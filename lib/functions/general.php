@@ -82,7 +82,7 @@ function jc_register_block_bindings() {
 
 // Copyright callback
 function jc_copyright_binding() {
-	return '&copy; ' . date( 'Y' );
+	return '&copy; ' . wp_date( 'Y' );
 }
 
 // User Data callback
